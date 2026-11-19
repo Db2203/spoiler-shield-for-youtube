@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mock YouTube search results</title>
+    <link rel="stylesheet" href="mock.css" />
+    <script src="mock.js"></script>
+  </head>
+  <body>
+    <ytd-app>
+      <ytd-masthead id="masthead"><input type="text" placeholder="Search" aria-label="Search" value="cooking" /></ytd-masthead>
+      <div id="content">
+        <ytd-page-manager id="page-manager">
+          <ytd-search>
+            <ytd-two-column-search-results-renderer>
+              <div id="primary">
+                <ytd-section-list-renderer>
+                  <div id="contents">
+                    <ytd-item-section-renderer>
+                      <div id="contents" data-mock-contents data-mock-kind="video"></div>
+                    </ytd-item-section-renderer>
+                  </div>
+                </ytd-section-list-renderer>
+              </div>
+              <div id="secondary">
+                <div id="shelf" data-mock-shelf data-mock-kind="lockup"></div>
+              </div>
+            </ytd-two-column-search-results-renderer>
+          </ytd-search>
+        </ytd-page-manager>
+      </div>
+      <div id="page-footer"></div>
+    </ytd-app>
+
+    <!-- Invented content. "Zorblax Quest 9" is a fictional game. -->
+    <script type="application/json" data-mock-items="[data-mock-contents]">
+      [
+        { "id": "r1", "title": "Sourdough starter guide", "channel": "Kitchen Corner", "handle": "kitchencorner", "description": "Flour, water and patience." },
+        { "id": "r2", "title": "Street food tour", "channel": "Food Finder", "handle": "foodfinder", "description": "We try pizza, dumplings and tacos across town." },
+        { "id": "r3", "title": "Zorblax Quest 9 review", "channel": "Game Gossip", "handle": "gamegossip", "description": "Our full verdict." },
+        { "id": "r4", "title": "Quest for the perfect espresso", "channel": "Bean There", "handle": "beanthere", "description": "Grind size, dose and timing." },
+        { "id": "r5", "title": "Zorblax developer quest log", "channel": "Game Gossip", "handle": "gamegossip", "description": "Behind the scenes." }
+      ]
+    </script>
+    <script type="application/json" data-mock-items="[data-mock-shelf]">
+      [
+        { "id": "l1", "title": "Evening piano practice", "channel": "Keys and Chords", "handle": "keysandchords" },
+        { "id": "l2", "title": "Pizza night vlog", "channel": "Food Finder", "handle": "foodfinder" },
+        { "id": "l3", "title": "Zorblax Quest 9 soundtrack", "channel": "Game Gossip", "handle": "gamegossip" }
+      ]
+    </script>
+  </body>
+</html>
