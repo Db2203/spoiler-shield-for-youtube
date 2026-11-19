@@ -71,7 +71,7 @@ npm run screenshots   # regenerates docs/screenshots from the mock pages
 
 The end-to-end tests never touch youtube.com. They serve mock pages from `tests/fixtures/` that copy YouTube's DOM structure with invented content, install a test build of the extension as a temporary add-on, and assert on computed styles. Selenium Manager downloads a matching geckodriver on first run; set `FIREFOX_BIN` if Firefox is installed somewhere unusual, or `SB_HEADED=1` to watch the tests run.
 
-A manual checklist for the real site, using the harmless keyword "pizza", is in [docs/manual-testing.md](docs/manual-testing.md).
+`npm run check:real` drives a signed-out headless Firefox through the real site with the harmless keyword "pizza" and reports structure only (items found, hidden, unchecked, leaked), never page text. The few steps that need a signed-in account are in [docs/manual-testing.md](docs/manual-testing.md).
 
 ### Project layout
 
