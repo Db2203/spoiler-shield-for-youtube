@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GTA 6 Spoiler Blocker",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Hides GTA 6 videos, Shorts, comments and search suggestions on YouTube. Runs entirely offline.",
   "homepage_url": "https://github.com/Db2203/gta6-spoiler-blocker",
   "browser_specific_settings": {
@@ -9,7 +9,9 @@
       "id": "gta6-spoiler-blocker@db2203.github.io",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
-        "required": ["none"]
+        "required": [
+          "none"
+        ]
       }
     }
   },
@@ -18,19 +20,28 @@
     "96": "icons/icon.svg",
     "128": "icons/icon.svg"
   },
-  "permissions": ["storage"],
-  "host_permissions": ["*://*.youtube.com/*"],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*"
+  ],
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
       "run_at": "document_start",
       "all_frames": false,
-      "css": ["content/hide.css"],
+      "css": [
+        "content/hide.css"
+      ],
       "js": [
         "content/matcher.js",
         "content/selectors.js",
         "content/settings.js",
         "content/scanner.js",
+        "content/watch-guard.js",
         "content/main.js"
       ]
     }
