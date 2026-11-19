@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mock YouTube home</title>
+    <link rel="stylesheet" href="mock.css" />
+    <script src="mock.js"></script>
+  </head>
+  <body>
+    <ytd-app>
+      <ytd-masthead id="masthead"><input type="text" placeholder="Search" aria-label="Search" /></ytd-masthead>
+      <div id="content">
+        <ytd-page-manager id="page-manager">
+          <ytd-browse page-subtype="home">
+            <ytd-two-column-browse-results-renderer>
+              <ytd-rich-grid-renderer>
+                <div id="contents" data-mock-contents data-mock-kind="rich"></div>
+              </ytd-rich-grid-renderer>
+            </ytd-two-column-browse-results-renderer>
+          </ytd-browse>
+        </ytd-page-manager>
+      </div>
+      <div id="page-footer"></div>
+    </ytd-app>
+
+    <!-- Invented content. "Zorblax Quest 9" is a fictional game. -->
+    <script type="application/json" data-mock-items="[data-mock-contents]">
+      [
+        { "id": "v1", "title": "Baking sourdough at home", "channel": "Kitchen Corner", "handle": "kitchencorner" },
+        { "id": "v2", "title": "Zorblax Quest 9 trailer reaction", "channel": "Game Gossip", "handle": "gamegossip" },
+        { "id": "v3", "title": "Best pizza in the city", "channel": "Food Finder", "handle": "foodfinder" },
+        { "id": "v4", "title": "Zorblax lore explained", "channel": "Lore Library", "handle": "lorelibrary" },
+        { "id": "v5", "title": "Zorblax community quest update", "channel": "Lore Library", "handle": "lorelibrary" },
+        { "id": "v6", "title": "Morning cycling route", "channel": "Trail Mix", "handle": "trailmix" },
+        { "id": "v7", "title": "Weekly news roundup", "channel": "Game Gossip", "handle": "gamegossip" },
+        { "id": "v8", "title": "Woodworking a small shelf", "channel": "Shop Class", "handle": "shopclass" }
+      ]
+    </script>
+  </body>
+</html>

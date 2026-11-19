@@ -1,0 +1,118 @@
+/* Minimal styling so the mock pages look like a grid and screenshots are readable. */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0f0f0f;
+  color: #f1f1f1;
+}
+
+ytd-app,
+ytd-page-manager,
+ytd-browse,
+ytd-search,
+ytd-watch-flexy,
+ytd-two-column-browse-results-renderer,
+ytd-two-column-search-results-renderer,
+ytd-section-list-renderer,
+ytd-item-section-renderer,
+ytd-rich-grid-renderer,
+ytd-rich-item-renderer,
+ytd-rich-grid-media,
+ytd-video-renderer,
+ytd-compact-video-renderer,
+yt-lockup-view-model,
+ytd-thumbnail,
+yt-image,
+ytd-video-meta-block,
+ytd-channel-name,
+yt-formatted-string,
+ytd-masthead,
+ytd-comments,
+ytd-comment-thread-renderer,
+ytd-comment-view-model,
+ytd-reel-shelf-renderer,
+ytm-shorts-lockup-view-model {
+  display: block;
+}
+
+ytd-masthead {
+  padding: 12px 24px;
+  background: #202020;
+  position: relative;
+}
+
+ytd-masthead input {
+  width: 420px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #333;
+  background: #121212;
+  color: #fff;
+}
+
+ytd-rich-grid-renderer #contents {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 24px;
+}
+
+ytd-video-renderer,
+yt-lockup-view-model,
+ytd-compact-video-renderer {
+  margin: 12px 24px;
+}
+
+ytd-thumbnail img,
+yt-thumbnail-view-model img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #333;
+  display: block;
+}
+
+ytd-video-renderer #dismissible {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+}
+
+#video-title,
+.yt-lockup-metadata-view-model-wiz__title {
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+}
+
+ytd-channel-name,
+.yt-content-metadata-view-model-wiz__metadata-text,
+#metadata-line,
+#description-text {
+  color: #aaa;
+  font-size: 13px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ytSuggestionComponentSuggestionsContainer {
+  position: absolute;
+  left: 24px;
+  top: 52px;
+  width: 440px;
+  background: #212121;
+  border-radius: 12px;
+  padding: 8px 0;
+}
+
+.ytSuggestionComponentSuggestion {
+  padding: 8px 16px;
+}
+
+#page-footer {
+  height: 1200px;
+}
