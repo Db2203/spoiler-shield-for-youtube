@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>GTA 6 Spoiler Blocker</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>GTA 6 Spoiler Blocker</h1>
+      <label class="switch" title="Turn the blocker on or off">
+        <input type="checkbox" id="enabled" />
+        <span class="track"><span class="thumb"></span></span>
+        <span class="switch-label" id="enabled-label">On</span>
+      </label>
+    </header>
+
+    <section class="stats" aria-label="Hidden item counts">
+      <div class="stat">
+        <span class="stat-value" id="count-page">–</span>
+        <span class="stat-label">hidden on this page</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="count-total">0</span>
+        <span class="stat-label">hidden in total</span>
+      </div>
+    </section>
+
+    <section class="notice" id="permission" hidden>
+      <p>The blocker does not have access to youtube.com yet.</p>
+      <button type="button" id="grant">Allow on youtube.com</button>
+    </section>
+
+    <section class="field">
+      <label for="strong">Strong keywords</label>
+      <p class="hint">One per line. Any one of these hides an item on its own.</p>
+      <textarea id="strong" rows="7" spellcheck="false"></textarea>
+    </section>
+
+    <section class="field">
+      <label for="weak">Weak keywords</label>
+      <p class="hint">One per line. Two different weak keywords together hide an item.</p>
+      <textarea id="weak" rows="3" spellcheck="false"></textarea>
+    </section>
+
+    <footer>
+      <button type="button" id="reset" class="secondary">Restore default keywords</button>
+      <span class="status" id="status" aria-live="polite"></span>
+    </footer>
+
+    <script src="../content/settings.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
