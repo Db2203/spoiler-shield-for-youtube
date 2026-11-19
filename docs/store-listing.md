@@ -1,6 +1,6 @@
 # addons.mozilla.org listing
 
-Copy-and-paste material for the listed submission. Submit from your own terminal with `npm run sign:listed`, then fill in the listing at https://addons.mozilla.org/developers/addons.
+Copy-and-paste material for the listed submission. Submit from your own terminal with `npm run sign:listed` (the license and release notes come from `amo-metadata.json`), then fill in the listing at https://addons.mozilla.org/developers/addons.
 
 ## Name
 
