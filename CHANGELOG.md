@@ -6,9 +6,25 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-20
+
+### Changed
+
+- Renamed to **Spoiler Shield for YouTube** for the addons.mozilla.org listing (the old name used a trademark). The extension id is unchanged, so existing installs update in place. GTA 6 remains the built-in default keyword preset.
+- The popup is now a quick panel: on/off, counts, blur and strict toggles, list sizes, and a button to the options page. Keyword and channel lists moved to a full options page.
+
 ### Added
 
-- `npm run sign`: submits the package to Mozilla for self-distribution signing, producing an `.xpi` that installs permanently in release Firefox. README documents the steps.
+- Options page (`about:addons` > Preferences, or the popup button) with large editors for both keyword lists and the blocklist, a **GTA 6** preset button, behaviour options and a resettable all-time counter.
+- Toolbar badge showing how many items were hidden on the current page, via a small background event page.
+- First-run welcome section on the options page, opened once after install.
+- Page-match option: block a video page when a keyword appears in its title, channel or description (default), or in the title or channel only.
+- `npm run sign` (unlisted) and `npm run sign:listed` submit the package to Mozilla for signing. `docs/store-listing.md` holds the listing text.
+- End-to-end suites for the options page and the page-match option.
+
+### Fixed
+
+- Shorts: a Short is now also judged by the page title and the description panel, which live outside the reel element, and the current reel is found even when YouTube omits the `is-active` attribute. Text inside neighbouring preloaded reels is ignored.
 
 ## [1.0.1] - 2026-11-19
 
@@ -62,9 +78,10 @@ All notable changes to this project are documented here. The format follows
 - Settings popup with on/off switch, editable keyword lists and hidden counters.
 - Unit tests for the matcher and end-to-end tests that drive headless Firefox against local mock pages.
 
-[Unreleased]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v1.0.1...HEAD
-[1.0.1]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.3.0...v1.0.0
-[0.3.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/Db2203/gta6-spoiler-blocker/releases/tag/v0.1.0
+[Unreleased]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.0.1...v1.1.0
+[1.0.1]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v0.3.0...v1.0.0
+[0.3.0]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/Db2203/spoiler-shield-for-youtube/releases/tag/v0.1.0
