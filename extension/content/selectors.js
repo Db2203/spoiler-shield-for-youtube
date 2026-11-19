@@ -59,6 +59,10 @@
     // Attributes whose values are included in a tile's text.
     textAttributes: ['aria-label', 'title', 'alt'],
 
+    // Thumbnail wrappers (for the blur option). Keep in sync with hide.css.
+    thumbnailContainers:
+      'ytd-thumbnail, yt-thumbnail-view-model, ytd-playlist-thumbnail, .shortsLockupViewModelHostThumbnailContainer, .ytp-ce-covering-overlay, .ytp-videowall-still',
+
     // Hover preview players; always disabled.
     previewContainers: 'ytd-video-preview, #video-preview, #mouseover-overlay, ytd-moving-thumbnail-renderer, #inline-preview-player',
 

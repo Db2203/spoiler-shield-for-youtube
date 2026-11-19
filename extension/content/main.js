@@ -12,9 +12,11 @@
     const settings = await SB.settings.load();
     SB.scanner.start(settings);
     SB.watchGuard.applySettings(settings);
+    SB.blur.applySettings(settings);
     SB.settings.onChange((next) => {
       SB.scanner.applySettings(next);
       SB.watchGuard.applySettings(next);
+      SB.blur.applySettings(next);
     });
     browser.runtime.onMessage.addListener((message) => {
       if (message && message.type === 'sb:getState') {

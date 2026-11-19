@@ -27,6 +27,8 @@
     pendingStats: 0,
     statsTimer: null,
     signatures: new Set(),
+    // Last seen text per element, so a recycled tile drops its reveal.
+    lastSignature: new WeakMap(),
     // Test-only failure modes: 'throw' makes every check fail, 'dead' stops all activity.
     failure: null,
   };
@@ -117,6 +119,11 @@
   function check(el) {
     if (state.failure === 'throw') throw new Error('scanner failure injected by test hook');
     if (!state.matcher) return; // settings not loaded yet: element stays hidden
+    const signature = signatureOf(el);
+    if (state.lastSignature.get(el) !== signature) {
+      state.lastSignature.set(el, signature);
+      if (el.hasAttribute('data-sb-reveal')) el.removeAttribute('data-sb-reveal');
+    }
     const verdict = evaluate(el);
     if (verdict.hide) {
       if (el.getAttribute('data-sb') !== 'hide') {
