@@ -1,0 +1,42 @@
+/*
+ * GTA 6 Spoiler Blocker: fail-closed stylesheet.
+ *
+ * Injected at document_start. Every candidate container is invisible until the
+ * scanner marks it data-sb="ok". If the scanner crashes or never runs, nothing
+ * is ever revealed. The html element gets data-sb-off when the extension is
+ * switched off, which disables every rule below.
+ *
+ * The candidate list must match extension/content/selectors.js.
+ */
+
+html:not([data-sb-off]) :is(
+  ytd-rich-item-renderer,
+  ytd-video-renderer,
+  ytd-compact-video-renderer,
+  ytd-grid-video-renderer,
+  ytd-playlist-renderer,
+  ytd-compact-playlist-renderer,
+  ytd-grid-playlist-renderer,
+  ytd-radio-renderer,
+  ytd-compact-radio-renderer,
+  ytd-channel-renderer,
+  ytd-playlist-video-renderer,
+  yt-lockup-view-model,
+  ytd-reel-item-renderer,
+  ytm-shorts-lockup-view-model,
+  ytm-shorts-lockup-view-model-v2,
+  ytd-comment-thread-renderer,
+  ytd-comment-view-model,
+  ytd-comment-renderer,
+  ytd-backstage-post-thread-renderer,
+  ytd-post-renderer,
+  ytd-notification-renderer,
+  .ytp-ce-element,
+  .ytp-videowall-still
+):not([data-sb]) {
+  visibility: hidden !important;
+}
+
+html:not([data-sb-off]) [data-sb="hide"] {
+  display: none !important;
+}
