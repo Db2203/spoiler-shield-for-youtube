@@ -4,13 +4,16 @@ A Firefox extension that keeps GTA 6 off your YouTube feed while you wait for th
 
 It hides matching videos, Shorts, comments, community posts and search suggestions, blocks matching video pages outright, and can blur every thumbnail until you choose to look. Everything runs locally in your browser: no network requests, no accounts, no data collection.
 
-> **Status:** v0.1.0, first working version. Video tiles are filtered on the home page, search results, subscriptions, channel pages and the watch-page sidebar. See the [roadmap](#roadmap) for what is next.
+> **Status:** v0.2.0. Every surface is covered: video tiles everywhere, Shorts, comments, community posts, search suggestions, end screens, and matching video or channel pages are blocked outright. Thumbnail blur is next. See the [roadmap](#roadmap).
 
 ## How it works
 
 - **Keyword matching.** Two editable lists. A *strong* keyword hides an item on its own. *Weak* keywords only count when two different ones appear together, which keeps common words like a first name from hiding unrelated videos. Matching is case-insensitive and whole-word, so `GTA` does not match the middle of another word.
 - **Fails closed.** Every video tile is invisible from the moment it enters the page until the extension has checked it. The hiding is done by a stylesheet injected before the page runs, so if the checking code ever crashes, stalls or is out of date, content stays hidden rather than leaking through.
 - **Keeps up with YouTube.** Infinite scroll, recycled tiles and in-page navigation are all watched with a mutation observer that decides each item before the browser paints it.
+- **Blocks whole pages.** If you land on a matching video, Short or channel, playback stops, the page is covered and a "Go back" button takes you to where you were. The player stays hidden until the page's own title and description have been checked, so nothing flashes through.
+- **Channel blocklist.** Add a handle or channel name and every one of their videos, Shorts, posts and comments disappears, along with their channel page.
+- **No hover previews.** Thumbnails never start playing when you mouse over them.
 - **Offline by design.** The only permission beyond youtube.com is local storage for your settings.
 
 Default strong keywords: `GTA`, `GTA 6`, `GTA6`, `GTA VI`, `GTAVI`, `Grand Theft Auto`, `Leonida`, `Vice City`, `Jason Duval`, `Lucia Caminos`.
@@ -33,6 +36,7 @@ Click the toolbar icon to:
 
 - switch the blocker on or off
 - edit the strong and weak keyword lists (one per line, saved as you type)
+- block channels by `@handle` or display name
 - see how many items were hidden on the current page and in total
 
 ## Development
@@ -58,6 +62,7 @@ extension/
   content/selectors.js  every YouTube selector in one place
   content/settings.js   defaults and storage
   content/scanner.js    mutation observer, marking, counting
+  content/watch-guard.js  blocks matching video, Shorts and channel pages
   content/main.js       bootstrap
   popup/                settings UI
 tests/
@@ -69,7 +74,7 @@ tests/
 ## Roadmap
 
 - [x] v0.1.0: keyword filtering of video tiles, on/off switch, editable keyword lists, hidden counter
-- [ ] v0.2.0: Shorts, comments, community posts, search suggestions, end screens, channel blocklist, video page blocking with a "Go back" screen, hover previews off
+- [x] v0.2.0: Shorts, comments, community posts, search suggestions, end screens, channel blocklist, video page blocking with a "Go back" screen, hover previews off
 - [ ] v0.3.0: thumbnail blur with click to reveal, strict mode
 - [ ] v1.0.0: performance pass, packaged build, manual test guide
 
