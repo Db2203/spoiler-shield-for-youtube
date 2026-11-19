@@ -42,23 +42,36 @@ function jwt(key, secret) {
   return `${header}.${payload}.${signature}`;
 }
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const PACE_MS = 2500; // the API throttles bursts; space requests out
+
 async function call(method, url, body, headers = {}) {
   const key = process.env.WEB_EXT_API_KEY;
   const secret = process.env.WEB_EXT_API_SECRET;
-  const res = await fetch(url, {
-    method,
-    headers: Object.assign({ Authorization: 'JWT ' + jwt(key, secret) }, headers),
-    body,
-  });
-  const text = await res.text();
-  let data = null;
-  try {
-    data = text ? JSON.parse(text) : null;
-  } catch (_) {
-    data = text;
+  for (let attempt = 1; ; attempt += 1) {
+    const res = await fetch(url, {
+      method,
+      headers: Object.assign({ Authorization: 'JWT ' + jwt(key, secret) }, headers),
+      body,
+    });
+    const text = await res.text();
+    let data = null;
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch (_) {
+      data = text;
+    }
+    if (res.status === 429 && attempt <= 5) {
+      const match = /available in (\d+) seconds/.exec(typeof data === 'string' ? data : JSON.stringify(data));
+      const wait = (match ? Number(match[1]) : 60) + 2;
+      console.log(`throttled by the API, waiting ${wait}s before retrying ${method} ...`);
+      await sleep(wait * 1000);
+      continue;
+    }
+    if (!res.ok) throw new Error(`${method} ${url} -> ${res.status}: ${typeof data === 'string' ? data.slice(0, 300) : JSON.stringify(data)}`);
+    await sleep(PACE_MS);
+    return data;
   }
-  if (!res.ok) throw new Error(`${method} ${url} -> ${res.status}: ${typeof data === 'string' ? data.slice(0, 300) : JSON.stringify(data)}`);
-  return data;
 }
 
 async function main() {
