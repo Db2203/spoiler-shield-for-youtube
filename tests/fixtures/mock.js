@@ -387,11 +387,26 @@
 
   /* ---- Shorts helpers ---- */
 
+  function reelItems() {
+    const script = document.querySelector('script[type="application/json"][data-mock-items="[data-mock-reels]"]');
+    return script ? JSON.parse(script.textContent) : [];
+  }
+
+  // Page-level data for the current Short: document title and the description panel.
+  function showReelData(id) {
+    const item = reelItems().find((i) => i.id === id);
+    if (!item) return;
+    document.title = item.title + ' #shorts - YouTube';
+    const panel = document.querySelector('[data-mock-shorts-description]');
+    if (panel) panel.textContent = item.description || '';
+  }
+
   function activateReel(id) {
     for (const el of document.querySelectorAll('ytd-reel-video-renderer')) el.removeAttribute('is-active');
     const target = document.querySelector(`ytd-reel-video-renderer[data-mock-id="${id}"]`);
     target.setAttribute('is-active', '');
     history.pushState({}, '', '/shorts/' + id);
+    showReelData(id);
     fire('yt-navigate-finish');
   }
 
@@ -453,6 +468,7 @@
       const id = location.pathname.split('/')[2];
       const target = document.querySelector(`ytd-reel-video-renderer[data-mock-id="${id}"]`) || reels[0];
       target.setAttribute('is-active', '');
+      showReelData(target.getAttribute('data-mock-id'));
     }
     // Channel page: header from the handle in the path.
     const header = document.querySelector('[data-mock-channel-header]');
