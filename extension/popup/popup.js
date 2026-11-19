@@ -1,13 +1,12 @@
 /*
- * Popup: edits settings in browser.storage.local and shows hidden counts.
- * Changes are saved automatically a short moment after typing stops.
+ * Popup: quick switches and counts. Keyword and channel lists are edited on
+ * the options page.
  */
 (function () {
   'use strict';
 
   const SB = globalThis.SpoilerBlocker;
   const YOUTUBE_ORIGIN = '*://*.youtube.com/*';
-  const SAVE_DELAY_MS = 400;
 
   const $ = (id) => document.getElementById(id);
   const ui = {
@@ -17,31 +16,26 @@
     countTotal: $('count-total'),
     permission: $('permission'),
     grant: $('grant'),
-    strong: $('strong'),
-    weak: $('weak'),
-    channels: $('channels'),
     blur: $('blur'),
     strict: $('strict'),
-    reset: $('reset'),
+    strongCount: $('strong-count'),
+    weakCount: $('weak-count'),
+    channelCount: $('channel-count'),
+    manage: $('manage'),
     status: $('status'),
   };
 
-  let saveTimer = null;
   let statusTimer = null;
-
-  function linesOf(textarea) {
-    return textarea.value.split(/\r?\n/);
-  }
 
   function render(settings) {
     ui.enabled.checked = settings.enabled;
     ui.enabledLabel.textContent = settings.enabled ? 'On' : 'Off';
     document.body.dataset.enabled = String(settings.enabled);
-    ui.strong.value = settings.strongKeywords.join('\n');
-    ui.weak.value = settings.weakKeywords.join('\n');
-    ui.channels.value = settings.blockedChannels.join('\n');
     ui.blur.checked = settings.blurThumbnails;
     ui.strict.checked = settings.strictMode;
+    ui.strongCount.textContent = String(settings.strongKeywords.length);
+    ui.weakCount.textContent = String(settings.weakKeywords.length);
+    ui.channelCount.textContent = String(settings.blockedChannels.length);
   }
 
   function showStatus(text) {
@@ -54,21 +48,12 @@
 
   async function save(partial) {
     try {
-      const next = await SB.settings.save(partial);
-      ui.enabledLabel.textContent = next.enabled ? 'On' : 'Off';
-      document.body.dataset.enabled = String(next.enabled);
+      render(await SB.settings.save(partial));
       showStatus('Saved');
     } catch (err) {
       showStatus('Could not save');
       console.error(err);
     }
-  }
-
-  function scheduleKeywordSave() {
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      save({ strongKeywords: linesOf(ui.strong), weakKeywords: linesOf(ui.weak), blockedChannels: linesOf(ui.channels) });
-    }, SAVE_DELAY_MS);
   }
 
   async function refreshCounts() {
@@ -106,17 +91,10 @@
     ui.enabled.addEventListener('change', () => save({ enabled: ui.enabled.checked }));
     ui.blur.addEventListener('change', () => save({ blurThumbnails: ui.blur.checked }));
     ui.strict.addEventListener('change', () => save({ strictMode: ui.strict.checked }));
-    ui.strong.addEventListener('input', scheduleKeywordSave);
-    ui.weak.addEventListener('input', scheduleKeywordSave);
-    ui.channels.addEventListener('input', scheduleKeywordSave);
 
-    ui.reset.addEventListener('click', async () => {
-      const next = await SB.settings.save({
-        strongKeywords: [...SB.settings.DEFAULTS.strongKeywords],
-        weakKeywords: [...SB.settings.DEFAULTS.weakKeywords],
-      });
-      render(next);
-      showStatus('Defaults restored');
+    ui.manage.addEventListener('click', async () => {
+      await browser.runtime.openOptionsPage();
+      window.close();
     });
 
     ui.grant.addEventListener('click', async () => {
@@ -128,7 +106,7 @@
       refreshPermission();
     });
 
-    // Keep the live count fresh while the popup is open.
+    SB.settings.onChange(render);
     setInterval(refreshCounts, 1000);
   }
 

@@ -204,12 +204,29 @@ textarea:focus-visible {
   outline-offset: 1px;
 }
 
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 16px 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.summary strong {
+  color: var(--fg);
+}
+
 footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   padding: 4px 16px 14px;
+}
+
+footer button {
+  flex: 1;
 }
 
 button {
