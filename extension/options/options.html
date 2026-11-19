@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spoiler Shield for YouTube</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <img src="../icons/icon.svg" alt="" width="40" height="40" />
+        <div>
+          <h1>Spoiler Shield for YouTube</h1>
+          <p class="muted">Everything on this page is stored in your browser only.</p>
+        </div>
+        <label class="switch" title="Turn the shield on or off">
+          <input type="checkbox" id="enabled" />
+          <span class="track"><span class="thumb"></span></span>
+          <span class="switch-label" id="enabled-label">On</span>
+        </label>
+      </header>
+
+      <section class="card welcome" id="welcome" hidden>
+        <h2>Welcome</h2>
+        <p>Spoiler Shield is installed and already protecting you with the GTA 6 keyword list below. Three things worth knowing:</p>
+        <ul>
+          <li><strong>Strong keywords</strong> hide a video, Short, comment, post or search suggestion on their own. <strong>Weak keywords</strong> only count when two different ones appear together, so a common first name alone never hides anything.</li>
+          <li>If you open a matching video, Short or channel, playback stops and the page is covered by a <strong>Go back</strong> screen.</li>
+          <li>Thumbnails can spoil without a single word. Turn on <strong>Blur all thumbnails</strong> below if you want them hidden until you click.</li>
+        </ul>
+        <p class="muted">The toolbar icon shows how many items were hidden on the current page. Click it for quick switches; come back here to edit your lists.</p>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Keywords</h2>
+          <div class="presets">
+            <span class="muted">Presets:</span>
+            <button type="button" class="secondary" data-preset="gta6">GTA 6</button>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="field">
+            <label for="strong">Strong keywords</label>
+            <p class="hint">One per line. Any one of these hides an item on its own. Whole words only, case does not matter, and a multi-word keyword matches as a phrase.</p>
+            <textarea id="strong" rows="12" spellcheck="false"></textarea>
+          </div>
+          <div class="field">
+            <label for="weak">Weak keywords</label>
+            <p class="hint">One per line. Two different weak keywords in the same item hide it. Use these for words that are only suspicious in combination.</p>
+            <textarea id="weak" rows="12" spellcheck="false"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Blocked channels</h2>
+        <div class="field">
+          <p class="hint">One per line, as <code>@handle</code> or the channel's display name. Hides every video, Short, post and comment from the channel, and covers its channel page.</p>
+          <textarea id="channels" rows="5" spellcheck="false" placeholder="@example"></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Behaviour</h2>
+        <label class="option">
+          <input type="checkbox" id="blur" />
+          <span>
+            <span class="option-title">Blur all thumbnails</span>
+            <span class="option-hint">Every thumbnail is blurred. The first click reveals one tile, the second opens it.</span>
+          </span>
+        </label>
+        <label class="option">
+          <input type="checkbox" id="strict" />
+          <span>
+            <span class="option-title">Strict mode</span>
+            <span class="option-hint">No reveal anywhere: blurred thumbnails stay blurred and blocked pages have no "Show anyway".</span>
+          </span>
+        </label>
+        <fieldset class="radio-group">
+          <legend>Block a video page when a keyword appears in</legend>
+          <label class="option">
+            <input type="radio" name="pageMatch" value="all" />
+            <span>
+              <span class="option-title">Title, channel or description</span>
+              <span class="option-hint">Safest. A video that only mentions a keyword in its description is blocked too.</span>
+            </span>
+          </label>
+          <label class="option">
+            <input type="radio" name="pageMatch" value="title" />
+            <span>
+              <span class="option-title">Title or channel only</span>
+              <span class="option-hint">Fewer false alarms when your keyword list is broad.</span>
+            </span>
+          </label>
+        </fieldset>
+      </section>
+
+      <section class="card">
+        <h2>Statistics</h2>
+        <p><strong id="count-total">0</strong> items hidden since install.</p>
+        <button type="button" class="secondary" id="reset-stats">Reset counter</button>
+      </section>
+
+      <footer class="page-footer">
+        <span class="status" id="status" aria-live="polite"></span>
+        <span class="muted">Version <span id="version"></span> · <a id="homepage" href="#" target="_blank" rel="noopener">Source and issues</a></span>
+      </footer>
+    </main>
+
+    <script src="../content/settings.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>
