@@ -9,6 +9,8 @@
  * The candidate list must match extension/content/selectors.js.
  */
 
+/* ---- Candidate containers: hidden until checked, removed when matched ---- */
+
 html:not([data-sb-off]) :is(
   ytd-rich-item-renderer,
   ytd-video-renderer,
@@ -25,6 +27,7 @@ html:not([data-sb-off]) :is(
   ytd-reel-item-renderer,
   ytm-shorts-lockup-view-model,
   ytm-shorts-lockup-view-model-v2,
+  ytd-reel-video-renderer,
   ytd-comment-thread-renderer,
   ytd-comment-view-model,
   ytd-comment-renderer,
@@ -32,11 +35,125 @@ html:not([data-sb-off]) :is(
   ytd-post-renderer,
   ytd-notification-renderer,
   .ytp-ce-element,
-  .ytp-videowall-still
+  .ytp-videowall-still,
+  .ytSuggestionComponentSuggestion,
+  .sbsb_c,
+  [role="listbox"] > [role="option"],
+  [role="listbox"] > li
 ):not([data-sb]) {
   visibility: hidden !important;
 }
 
 html:not([data-sb-off]) [data-sb="hide"] {
+  display: none !important;
+}
+
+/* ---- Hover previews: never shown ---- */
+
+html:not([data-sb-off]) :is(
+  ytd-video-preview,
+  #video-preview,
+  #mouseover-overlay,
+  ytd-moving-thumbnail-renderer,
+  #inline-preview-player,
+  ytd-thumbnail-overlay-loading-preview-renderer
+) {
+  display: none !important;
+}
+
+/* ---- Watch, Shorts and channel pages ---- */
+
+/* While the page's own metadata is being checked, the player stays hidden. */
+html:not([data-sb-off])[data-sb-watch="pending"] :is(
+  ytd-watch-flexy,
+  ytd-shorts,
+  #shorts-container,
+  #shorts-inner-container
+) {
+  visibility: hidden !important;
+}
+
+/* A blocked page hides everything except the masthead and shows the overlay. */
+html:not([data-sb-off])[data-sb-watch="blocked"] :is(
+  ytd-page-manager,
+  ytd-watch-flexy,
+  ytd-shorts,
+  ytd-browse
+) {
+  visibility: hidden !important;
+}
+
+#sb-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  align-items: center;
+  justify-content: center;
+  background: #0f0f0f;
+  color: #f1f1f1;
+  font-family: "Roboto", "Segoe UI", Arial, sans-serif;
+  text-align: center;
+}
+
+html:not([data-sb-off])[data-sb-watch="blocked"] #sb-overlay {
+  display: flex;
+}
+
+#sb-overlay .sb-card {
+  max-width: 440px;
+  padding: 32px 28px;
+}
+
+#sb-overlay .sb-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+}
+
+#sb-overlay h1 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+#sb-overlay p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #aaaaaa;
+  margin: 0 0 24px;
+}
+
+#sb-overlay .sb-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+#sb-overlay button {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background: #f1f1f1;
+  color: #0f0f0f;
+  cursor: pointer;
+}
+
+#sb-overlay button.sb-secondary {
+  background: transparent;
+  color: #f1f1f1;
+  border-color: #3f3f3f;
+}
+
+#sb-overlay button:focus-visible {
+  outline: 2px solid #ff5a5f;
+  outline-offset: 2px;
+}
+
+/* Strict mode: no way to reveal a blocked page. */
+html[data-sb-strict] #sb-show-anyway {
   display: none !important;
 }

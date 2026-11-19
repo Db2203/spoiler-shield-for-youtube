@@ -108,6 +108,12 @@
     }, STATS_FLUSH_MS);
   }
 
+  function pauseMediaInside(el) {
+    for (const media of el.querySelectorAll('video, audio')) {
+      if (!media.paused) media.pause();
+    }
+  }
+
   function check(el) {
     if (state.failure === 'throw') throw new Error('scanner failure injected by test hook');
     if (!state.matcher) return; // settings not loaded yet: element stays hidden
@@ -117,6 +123,7 @@
         el.setAttribute('data-sb', 'hide');
         recordHidden(el);
       }
+      pauseMediaInside(el);
     } else if (el.getAttribute('data-sb') !== 'ok') {
       el.setAttribute('data-sb', 'ok');
     }
@@ -209,6 +216,25 @@
     });
   }
 
+  // Hover previews and inline players inside tiles never get to play.
+  function onPlay(event) {
+    const media = event.target;
+    if (!(media instanceof HTMLMediaElement) || !enabled()) return;
+    const selectors = sel();
+    if (media.closest(selectors.previewContainers)) {
+      media.pause();
+      return;
+    }
+    const tile = media.closest(selectors.candidateSelector);
+    if (!tile) return;
+    // The Shorts player reel is a candidate too; only stop it when hidden.
+    if (tile.matches(selectors.anyReel)) {
+      if (tile.getAttribute('data-sb') === 'hide') media.pause();
+      return;
+    }
+    media.pause();
+  }
+
   function clearMarks() {
     for (const el of document.querySelectorAll('[data-sb]')) el.removeAttribute('data-sb');
   }
@@ -217,6 +243,8 @@
     state.settings = settings;
     state.matcher = SB.matcher.createMatcher(settings);
     const html = document.documentElement;
+    if (settings.strictMode) html.setAttribute('data-sb-strict', '');
+    else html.removeAttribute('data-sb-strict');
     if (!settings.enabled) {
       html.setAttribute('data-sb-off', '');
       return;
@@ -233,6 +261,7 @@
     state.started = true;
     applySettings(settings);
     observe();
+    document.addEventListener('play', onPlay, true);
     state.sweepTimer = setInterval(sweep, SWEEP_INTERVAL_MS);
     for (const name of NAV_EVENTS) {
       window.addEventListener(name, queueFullScan, true);

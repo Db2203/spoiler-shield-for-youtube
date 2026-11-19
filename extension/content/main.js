@@ -1,6 +1,7 @@
 /*
- * Bootstrap. Loads settings, starts the scanner and answers the popup's
- * state requests. If anything here fails, hide.css keeps content hidden.
+ * Bootstrap. Loads settings, starts the scanner and the watch guard, and
+ * answers the popup's state requests. If anything here fails, hide.css keeps
+ * content hidden.
  */
 (function (root) {
   'use strict';
@@ -10,10 +11,14 @@
   async function main() {
     const settings = await SB.settings.load();
     SB.scanner.start(settings);
-    SB.settings.onChange((next) => SB.scanner.applySettings(next));
+    SB.watchGuard.applySettings(settings);
+    SB.settings.onChange((next) => {
+      SB.scanner.applySettings(next);
+      SB.watchGuard.applySettings(next);
+    });
     browser.runtime.onMessage.addListener((message) => {
       if (message && message.type === 'sb:getState') {
-        return Promise.resolve(SB.scanner.getState());
+        return Promise.resolve(Object.assign(SB.scanner.getState(), { page: SB.watchGuard.getState() }));
       }
       return undefined;
     });
