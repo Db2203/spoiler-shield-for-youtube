@@ -4,7 +4,7 @@ A Firefox extension that keeps GTA 6 off your YouTube feed while you wait for th
 
 It hides matching videos, Shorts, comments, community posts and search suggestions, blocks matching video pages outright, and can blur every thumbnail until you choose to look. Everything runs locally in your browser: no network requests, no accounts, no data collection.
 
-> **Status:** v0.2.0. Every surface is covered: video tiles everywhere, Shorts, comments, community posts, search suggestions, end screens, and matching video or channel pages are blocked outright. Thumbnail blur is next. See the [roadmap](#roadmap).
+> **Status:** v0.3.0, feature complete. Every surface is covered, matching pages are blocked outright, and thumbnails can be blurred with click to reveal. What remains before 1.0 is a performance pass, a manual test guide and CI. See the [roadmap](#roadmap).
 
 ## How it works
 
@@ -14,6 +14,7 @@ It hides matching videos, Shorts, comments, community posts and search suggestio
 - **Blocks whole pages.** If you land on a matching video, Short or channel, playback stops, the page is covered and a "Go back" button takes you to where you were. The player stays hidden until the page's own title and description have been checked, so nothing flashes through.
 - **Channel blocklist.** Add a handle or channel name and every one of their videos, Shorts, posts and comments disappears, along with their channel page.
 - **No hover previews.** Thumbnails never start playing when you mouse over them.
+- **Optional thumbnail blur.** Thumbnails can spoil without a single word, so every thumbnail can be blurred. The first click reveals one tile, the second opens it. Strict mode removes the reveal, and removes "Show anyway" from blocked pages.
 - **Offline by design.** The only permission beyond youtube.com is local storage for your settings.
 
 Default strong keywords: `GTA`, `GTA 6`, `GTA6`, `GTA VI`, `GTAVI`, `Grand Theft Auto`, `Leonida`, `Vice City`, `Jason Duval`, `Lucia Caminos`.
@@ -37,6 +38,7 @@ Click the toolbar icon to:
 - switch the blocker on or off
 - edit the strong and weak keyword lists (one per line, saved as you type)
 - block channels by `@handle` or display name
+- blur all thumbnails, and turn on strict mode
 - see how many items were hidden on the current page and in total
 
 ## Development
@@ -63,6 +65,7 @@ extension/
   content/settings.js   defaults and storage
   content/scanner.js    mutation observer, marking, counting
   content/watch-guard.js  blocks matching video, Shorts and channel pages
+  content/blur.js       thumbnail blur and click to reveal
   content/main.js       bootstrap
   popup/                settings UI
 tests/
@@ -75,7 +78,7 @@ tests/
 
 - [x] v0.1.0: keyword filtering of video tiles, on/off switch, editable keyword lists, hidden counter
 - [x] v0.2.0: Shorts, comments, community posts, search suggestions, end screens, channel blocklist, video page blocking with a "Go back" screen, hover previews off
-- [ ] v0.3.0: thumbnail blur with click to reveal, strict mode
+- [x] v0.3.0: thumbnail blur with click to reveal, strict mode
 - [ ] v1.0.0: performance pass, packaged build, manual test guide
 
 ## Privacy
