@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-19
+
+### Added
+
+- Optional blur of every thumbnail (video tiles, Shorts, playlists, end screens). The first click on a blurred thumbnail reveals that tile; the second opens it. A recycled tile is blurred again.
+- Strict mode: blurred thumbnails cannot be revealed and blocked pages have no "Show anyway".
+- Popup options for thumbnail blur and strict mode.
+- End-to-end coverage for blur, reveal, strict mode and the persisted all-time counter.
+
 ## [0.2.0] - 2026-11-19
 
 ### Added
@@ -28,6 +37,7 @@ All notable changes to this project are documented here. The format follows
 - Settings popup with on/off switch, editable keyword lists and hidden counters.
 - Unit tests for the matcher and end-to-end tests that drive headless Firefox against local mock pages.
 
-[Unreleased]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Db2203/gta6-spoiler-blocker/releases/tag/v0.1.0
