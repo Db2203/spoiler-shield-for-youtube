@@ -1,0 +1,7 @@
+node_modules/
+web-ext-artifacts/
+test-output/
+.test-extension/
+*.log
+.DS_Store
+Thumbs.db

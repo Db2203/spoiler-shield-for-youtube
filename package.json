@@ -1,0 +1,18 @@
+{
+  "name": "gta6-spoiler-blocker",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Firefox extension that hides GTA 6 videos, Shorts, comments and search suggestions on YouTube. Runs fully offline.",
+  "license": "MIT",
+  "author": "Db2203",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/unit/",
+    "test:e2e": "node --test --test-concurrency=1 tests/e2e/",
+    "lint": "web-ext lint --source-dir extension"
+  },
+  "devDependencies": {
+    "selenium-webdriver": "^4.35.0",
+    "web-ext": "^8.9.0"
+  }
+}
