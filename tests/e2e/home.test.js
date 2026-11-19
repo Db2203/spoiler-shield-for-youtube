@@ -68,7 +68,7 @@ test('tiles are hidden by strong keywords or two weak keywords, others stay visi
 test('hidden counter reports each hidden tile once', async () => {
   await loadHome();
   const state = await hook(driver, 'getState');
-  assert.equal(state.hiddenCount, 3);
+  assert.equal(state.hiddenCount, 5); // 3 video tiles + 2 Shorts shelf tiles
   assert.equal(state.enabled, true);
 });
 
@@ -95,7 +95,7 @@ test('tiles appended by infinite scroll are invisible before being checked, then
   await waitUntilSettled(driver, TILE);
   const map = await visibilityMap(driver, TILE);
   assertVerdicts(map, { n1: 'visible', n2: 'hidden', n3: 'hidden' });
-  assert.equal((await hook(driver, 'getState')).hiddenCount, 5);
+  assert.equal((await hook(driver, 'getState')).hiddenCount, 7);
 });
 
 test('a recycled tile is re-checked when its content changes in place', async () => {

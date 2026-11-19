@@ -30,7 +30,9 @@ async function launchBrowser() {
     .setPreference('extensions.originControls.grantByDefault', true)
     .setPreference('devtools.console.stdout.content', true)
     .setPreference('browser.cache.disk.enable', false)
-    .setPreference('browser.cache.memory.enable', false);
+    .setPreference('browser.cache.memory.enable', false)
+    .setPreference('media.autoplay.default', 0)
+    .setPreference('media.autoplay.blocking_policy', 0);
   if (!process.env.SB_HEADED) options.addArguments('-headless');
   const binary = firefoxBinary();
   if (binary) options.setBinary(binary);

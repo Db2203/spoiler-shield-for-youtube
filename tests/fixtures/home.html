@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Mock YouTube home</title>
-    <link rel="stylesheet" href="mock.css" />
-    <script src="mock.js"></script>
+    <title>YouTube</title>
+    <link rel="stylesheet" href="/mock.css" />
+    <script src="/mock.js"></script>
   </head>
   <body>
     <ytd-app>
@@ -15,6 +15,11 @@
             <ytd-two-column-browse-results-renderer>
               <ytd-rich-grid-renderer>
                 <div id="contents" data-mock-contents data-mock-kind="rich"></div>
+                <ytd-rich-section-renderer>
+                  <ytd-reel-shelf-renderer>
+                    <div id="items" data-mock-shorts data-mock-kind="short"></div>
+                  </ytd-reel-shelf-renderer>
+                </ytd-rich-section-renderer>
               </ytd-rich-grid-renderer>
             </ytd-two-column-browse-results-renderer>
           </ytd-browse>
@@ -34,6 +39,14 @@
         { "id": "v6", "title": "Morning cycling route", "channel": "Trail Mix", "handle": "trailmix" },
         { "id": "v7", "title": "Weekly news roundup", "channel": "Game Gossip", "handle": "gamegossip" },
         { "id": "v8", "title": "Woodworking a small shelf", "channel": "Shop Class", "handle": "shopclass" }
+      ]
+    </script>
+    <script type="application/json" data-mock-items="[data-mock-shorts]">
+      [
+        { "id": "sh1", "title": "Cat discovers a cardboard box", "channel": "Pet Pals", "handle": "petpals" },
+        { "id": "sh2", "title": "Zorblax Quest 9 in 30 seconds", "channel": "Game Gossip", "handle": "gamegossip" },
+        { "id": "sh3", "title": "Pizza fold technique", "channel": "Food Finder", "handle": "foodfinder" },
+        { "id": "sh4", "title": "Rainy day piano", "channel": "Keys and Chords", "handle": "keysandchords" }
       ]
     </script>
   </body>

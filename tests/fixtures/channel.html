@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>YouTube</title>
+    <link rel="stylesheet" href="/mock.css" />
+    <script src="/mock.js"></script>
+    <style>
+      yt-page-header-renderer { display: block; padding: 24px; border-bottom: 1px solid #272727; }
+      yt-page-header-renderer h1 { margin: 0 0 4px; font-size: 28px; }
+      yt-page-header-renderer .handle { color: #aaa; }
+    </style>
+  </head>
+  <body>
+    <ytd-app>
+      <ytd-masthead id="masthead"><input type="text" placeholder="Search" aria-label="Search" /></ytd-masthead>
+      <div id="content">
+        <ytd-page-manager id="page-manager">
+          <ytd-browse page-subtype="channels">
+            <yt-page-header-renderer data-mock-channel-header>
+              <yt-page-header-view-model>
+                <div class="page-header-view-model-wiz__page-header-headline-info">
+                  <h1 class="page-header-view-model-wiz__page-header-title"><span class="page-header-view-model-wiz__page-header-title-text"></span></h1>
+                  <div class="handle"><span data-mock-handle></span></div>
+                </div>
+              </yt-page-header-view-model>
+            </yt-page-header-renderer>
+            <ytd-two-column-browse-results-renderer>
+              <ytd-rich-grid-renderer>
+                <div id="contents" data-mock-contents data-mock-kind="rich"></div>
+              </ytd-rich-grid-renderer>
+            </ytd-two-column-browse-results-renderer>
+          </ytd-browse>
+        </ytd-page-manager>
+      </div>
+    </ytd-app>
+
+    <!-- Invented content. -->
+    <script type="application/json" data-mock-channels>
+      {
+        "gamegossip": "Game Gossip",
+        "kitchencorner": "Kitchen Corner",
+        "pizzapalace": "Pizza Palace"
+      }
+    </script>
+    <script type="application/json" data-mock-items="[data-mock-contents]">
+      [
+        { "id": "ch1", "title": "Channel trailer", "channel": "Some Channel", "handle": "somechannel" },
+        { "id": "ch2", "title": "Our pizza special", "channel": "Some Channel", "handle": "somechannel" },
+        { "id": "ch3", "title": "Behind the scenes", "channel": "Some Channel", "handle": "somechannel" }
+      ]
+    </script>
+  </body>
+</html>

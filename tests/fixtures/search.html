@@ -2,13 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Mock YouTube search results</title>
-    <link rel="stylesheet" href="mock.css" />
-    <script src="mock.js"></script>
+    <title>cooking - YouTube</title>
+    <link rel="stylesheet" href="/mock.css" />
+    <script src="/mock.js"></script>
   </head>
   <body>
     <ytd-app>
-      <ytd-masthead id="masthead"><input type="text" placeholder="Search" aria-label="Search" value="cooking" /></ytd-masthead>
+      <ytd-masthead id="masthead">
+        <input type="text" placeholder="Search" aria-label="Search" value="cooking" />
+        <div class="ytSuggestionComponentSuggestionsContainer" role="listbox" data-mock-suggestions hidden></div>
+      </ytd-masthead>
       <div id="content">
         <ytd-page-manager id="page-manager">
           <ytd-search>

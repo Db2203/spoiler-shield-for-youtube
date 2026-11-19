@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Shorts - YouTube</title>
+    <link rel="stylesheet" href="/mock.css" />
+    <script src="/mock.js"></script>
+    <style>
+      ytd-shorts, #shorts-container, ytd-reel-video-renderer { display: block; }
+      ytd-reel-video-renderer { height: 100vh; position: relative; }
+      ytd-reel-video-renderer:not([is-active]) { opacity: 0.4; }
+      ytd-reel-video-renderer video { width: 360px; height: 640px; background: #000; display: block; margin: 0 auto; }
+      ytd-reel-video-renderer #overlay { position: absolute; bottom: 40px; left: 50%; width: 320px; margin-left: -160px; }
+    </style>
+  </head>
+  <body>
+    <ytd-app>
+      <ytd-masthead id="masthead"><input type="text" placeholder="Search" aria-label="Search" /></ytd-masthead>
+      <div id="content">
+        <ytd-page-manager id="page-manager">
+          <ytd-shorts>
+            <div id="shorts-container" data-mock-reels data-mock-kind="reel"></div>
+          </ytd-shorts>
+        </ytd-page-manager>
+      </div>
+    </ytd-app>
+
+    <!-- Invented content. "Zorblax Quest 9" is a fictional game. -->
+    <script type="application/json" data-mock-items="[data-mock-reels]">
+      [
+        { "id": "s1", "title": "Cat discovers a cardboard box", "channel": "Pet Pals", "handle": "petpals" },
+        { "id": "s2", "title": "Zorblax Quest 9 in 30 seconds", "channel": "Game Gossip", "handle": "gamegossip" },
+        { "id": "s3", "title": "Rainy day piano", "channel": "Keys and Chords", "handle": "keysandchords" }
+      ]
+    </script>
+  </body>
+</html>
