@@ -19,6 +19,7 @@
     grant: $('grant'),
     strong: $('strong'),
     weak: $('weak'),
+    channels: $('channels'),
     reset: $('reset'),
     status: $('status'),
   };
@@ -36,6 +37,7 @@
     document.body.dataset.enabled = String(settings.enabled);
     ui.strong.value = settings.strongKeywords.join('\n');
     ui.weak.value = settings.weakKeywords.join('\n');
+    ui.channels.value = settings.blockedChannels.join('\n');
   }
 
   function showStatus(text) {
@@ -61,7 +63,7 @@
   function scheduleKeywordSave() {
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
-      save({ strongKeywords: linesOf(ui.strong), weakKeywords: linesOf(ui.weak) });
+      save({ strongKeywords: linesOf(ui.strong), weakKeywords: linesOf(ui.weak), blockedChannels: linesOf(ui.channels) });
     }, SAVE_DELAY_MS);
   }
 
@@ -100,6 +102,7 @@
     ui.enabled.addEventListener('change', () => save({ enabled: ui.enabled.checked }));
     ui.strong.addEventListener('input', scheduleKeywordSave);
     ui.weak.addEventListener('input', scheduleKeywordSave);
+    ui.channels.addEventListener('input', scheduleKeywordSave);
 
     ui.reset.addEventListener('click', async () => {
       const next = await SB.settings.save({
