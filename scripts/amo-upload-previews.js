@@ -74,8 +74,9 @@ async function main() {
   }
 
   const base = `${API}/addons/addon/${encodeURIComponent(ADDON_ID)}/previews/`;
-  const existing = await call('GET', base);
-  const current = existing.results || [];
+  // Existing previews are listed on the add-on record, not on the previews endpoint.
+  const addon = await call('GET', `${API}/addons/addon/${encodeURIComponent(ADDON_ID)}/`);
+  const current = addon.previews || [];
   if (current.length && !process.argv.includes('--replace')) {
     console.log(`${current.length} preview(s) already on the listing. Run with --replace to replace them.`);
     return;
