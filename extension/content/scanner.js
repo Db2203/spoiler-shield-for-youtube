@@ -24,8 +24,10 @@
     sweepTimer: null,
     fullScanQueued: false,
     hiddenCount: 0,
+    pageHref: location.href,
     pendingStats: 0,
     statsTimer: null,
+    badgeTimer: null,
     signatures: new Set(),
     // Last seen text per element, so a recycled tile drops its reveal.
     lastSignature: new WeakMap(),
@@ -93,6 +95,29 @@
     state.hiddenCount += 1;
     state.pendingStats += 1;
     scheduleStatsFlush();
+    scheduleBadge();
+  }
+
+  // Tells the background page the per-tab count, shown as a toolbar badge.
+  function scheduleBadge() {
+    if (state.badgeTimer) return;
+    state.badgeTimer = setTimeout(() => {
+      state.badgeTimer = null;
+      try {
+        browser.runtime.sendMessage({ type: 'sb:count', count: state.hiddenCount }).catch(() => {});
+      } catch (_) {
+        /* extension context gone */
+      }
+    }, 200);
+  }
+
+  // A new page (in-page navigation) starts its own count.
+  function resetPageCount() {
+    if (location.href === state.pageHref) return;
+    state.pageHref = location.href;
+    state.hiddenCount = 0;
+    state.signatures.clear();
+    scheduleBadge();
   }
 
   function scheduleStatsFlush() {
@@ -163,6 +188,7 @@
     state.fullScanQueued = true;
     queueMicrotask(() => {
       state.fullScanQueued = false;
+      resetPageCount();
       if (enabled()) scanAll(document);
     });
   }

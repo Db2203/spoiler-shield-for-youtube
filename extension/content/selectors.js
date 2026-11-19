@@ -77,6 +77,9 @@
     // Shorts player
     activeReel: 'ytd-reel-video-renderer[is-active]',
     anyReel: 'ytd-reel-video-renderer',
+    // Text about the current Short that lives outside the reel element.
+    shortsPageText:
+      '#shorts-player .ytp-title, ytd-shorts ytd-structured-description-content-renderer, ytd-shorts ytd-expandable-video-description-body-renderer, ytd-shorts yt-shorts-video-title-view-model',
 
     // Channel page header
     channelHeaderName:

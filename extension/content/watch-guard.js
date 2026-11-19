@@ -151,7 +151,7 @@
     if (state.settings && state.settings.strictMode) return;
     state.allowedHref = location.href;
     if (state.page === 'shorts') {
-      const reel = document.querySelector(sel().activeReel) || document.querySelector(sel().anyReel);
+      const reel = currentReel();
       if (reel) reel.setAttribute('data-sb', 'ok');
     }
     evaluate();
@@ -183,8 +183,15 @@
     const ready = Boolean(flexy && pageId && !stale && heading && heading.textContent.trim());
     if ((stale || !title) && !state.fallbackDue) return { pending: true };
 
-    const parts = [title, documentTitle(), textOfAll(sel().watchMetadata), textOfAll(sel().playerTitle)];
-    if (onInitialPage()) parts.push(metaText());
+    const parts = [title, documentTitle(), textOfAll(sel().playerTitle)];
+    if (state.settings.pageMatch === 'title') {
+      // Title and channel only.
+      for (const el of document.querySelectorAll(sel().watchOwnerName)) parts.push(el.textContent);
+    } else {
+      // Title, channel and description (plus the initial page's meta tags).
+      parts.push(textOfAll(sel().watchMetadata));
+      if (onInitialPage()) parts.push(metaText());
+    }
     const verdict = state.matcher.evaluate(parts.join('\n'));
     verdict.channel = false;
     if (!verdict.hide && state.settings.blockedChannels.length > 0) {
@@ -201,14 +208,44 @@
     return verdict;
   }
 
+  // The reel that is currently showing: the one YouTube marks active, else
+  // the one whose video is playing, else the first.
+  function currentReel() {
+    const active = document.querySelector(sel().activeReel);
+    if (active) return active;
+    const reels = Array.from(document.querySelectorAll(sel().anyReel));
+    return reels.find((r) => Array.from(r.querySelectorAll('video')).some((v) => !v.paused)) || reels[0] || null;
+  }
+
   // Reels are candidate containers, so the scanner has already marked them.
+  // The page title and the description panel live outside the reel and are
+  // checked as well, since the reel's own text can arrive late.
   function evaluateShorts() {
-    const reel = document.querySelector(sel().activeReel) || document.querySelector(sel().anyReel);
-    if (!reel) return state.fallbackDue ? { hide: false } : { pending: true };
-    const mark = reel.getAttribute('data-sb');
+    const reel = currentReel();
+    const mark = reel ? reel.getAttribute('data-sb') : null;
     if (mark === 'hide') return { hide: true, strong: [], weak: [] };
-    if (mark === 'ok') return { hide: false };
-    return state.fallbackDue ? { hide: true, strong: [], weak: [] } : { pending: true };
+
+    const title = documentTitle();
+    if ((!reel || !mark || !title) && !state.fallbackDue) return { pending: true };
+
+    const parts = [title];
+    if (state.settings.pageMatch !== 'title') {
+      // Only text outside the reels: the current reel is covered by its own
+      // mark, and the other reels are preloaded neighbours, not this Short.
+      for (const el of document.querySelectorAll(sel().shortsPageText)) {
+        if (!el.closest(sel().anyReel)) parts.push(el.textContent);
+      }
+      if (onInitialPage()) parts.push(metaText());
+    }
+    const verdict = state.matcher.evaluate(parts.join('\n'));
+    verdict.channel = false;
+    if (!verdict.hide && state.settings.blockedChannels.length > 0 && reel) {
+      if (SB.matcher.channelBlocked(SB.scanner.channelsOf(reel), state.settings.blockedChannels)) {
+        verdict.hide = true;
+        verdict.channel = true;
+      }
+    }
+    return verdict;
   }
 
   function evaluateChannel() {
