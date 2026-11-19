@@ -177,6 +177,10 @@
     const pageId = flexy ? flexy.getAttribute('video-id') : null;
     const stale = Boolean(pageId && urlId && pageId !== urlId);
     const title = watchTitle();
+    const heading = document.querySelector(sel().watchTitle);
+    // The page is only fully described once the watch container exists for
+    // this video id and the heading has rendered.
+    const ready = Boolean(flexy && pageId && !stale && heading && heading.textContent.trim());
     if ((stale || !title) && !state.fallbackDue) return { pending: true };
 
     const parts = [title, documentTitle(), textOfAll(sel().watchMetadata), textOfAll(sel().playerTitle)];
@@ -192,6 +196,8 @@
         verdict.channel = true;
       }
     }
+    // An early decision may only ever be "blocked". "ok" waits for the full page.
+    if (!verdict.hide && !ready && !state.fallbackDue) return { pending: true };
     return verdict;
   }
 
