@@ -43,6 +43,23 @@
       <textarea id="weak" rows="3" spellcheck="false"></textarea>
     </section>
 
+    <section class="options">
+      <label class="option">
+        <input type="checkbox" id="blur" />
+        <span>
+          <span class="option-title">Blur all thumbnails</span>
+          <span class="option-hint">Click a thumbnail once to reveal it.</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" id="strict" />
+        <span>
+          <span class="option-title">Strict mode</span>
+          <span class="option-hint">No reveal: blurred thumbnails stay blurred and blocked pages cannot be shown.</span>
+        </span>
+      </label>
+    </section>
+
     <section class="field">
       <label for="channels">Blocked channels</label>
       <p class="hint">One per line, as @handle or channel name. Hides all their videos and their channel page.</p>

@@ -141,6 +141,36 @@ h1 {
   margin: 0 0 8px;
 }
 
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px 14px;
+}
+
+.option {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.option input {
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+}
+
+.option-title {
+  display: block;
+  font-weight: 600;
+}
+
+.option-hint {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .field {
   padding: 0 16px 12px;
 }

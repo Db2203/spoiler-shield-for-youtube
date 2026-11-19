@@ -20,6 +20,8 @@
     strong: $('strong'),
     weak: $('weak'),
     channels: $('channels'),
+    blur: $('blur'),
+    strict: $('strict'),
     reset: $('reset'),
     status: $('status'),
   };
@@ -38,6 +40,8 @@
     ui.strong.value = settings.strongKeywords.join('\n');
     ui.weak.value = settings.weakKeywords.join('\n');
     ui.channels.value = settings.blockedChannels.join('\n');
+    ui.blur.checked = settings.blurThumbnails;
+    ui.strict.checked = settings.strictMode;
   }
 
   function showStatus(text) {
@@ -100,6 +104,8 @@
     refreshPermission();
 
     ui.enabled.addEventListener('change', () => save({ enabled: ui.enabled.checked }));
+    ui.blur.addEventListener('change', () => save({ blurThumbnails: ui.blur.checked }));
+    ui.strict.addEventListener('change', () => save({ strictMode: ui.strict.checked }));
     ui.strong.addEventListener('input', scheduleKeywordSave);
     ui.weak.addEventListener('input', scheduleKeywordSave);
     ui.channels.addEventListener('input', scheduleKeywordSave);
