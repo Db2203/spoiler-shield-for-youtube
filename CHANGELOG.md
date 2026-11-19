@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-19
+
+### Added
+
+- Packaged build (`npm run build`) producing a zip that can be loaded as a temporary add-on.
+- GitHub Actions workflow running lint, unit tests and the headless Firefox end-to-end suite on every push, and attaching the packaged zip.
+- Manual test guide for real YouTube using the harmless keyword "pizza" (`docs/manual-testing.md`).
+- Popup end-to-end tests, opened as an extension page with a pinned UUID.
+- Performance guard: 500 tiles inserted at once are decided before the next task (about 50 ms in headless Firefox).
+- README screenshots captured from the mock pages.
+
 ## [0.3.0] - 2026-11-19
 
 ### Added
@@ -37,7 +48,8 @@ All notable changes to this project are documented here. The format follows
 - Settings popup with on/off switch, editable keyword lists and hidden counters.
 - Unit tests for the matcher and end-to-end tests that drive headless Firefox against local mock pages.
 
-[Unreleased]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Db2203/gta6-spoiler-blocker/releases/tag/v0.1.0
