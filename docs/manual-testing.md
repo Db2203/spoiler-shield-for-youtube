@@ -1,6 +1,20 @@
-# Manual testing on real YouTube
+# Testing on real YouTube
 
-The automated tests only ever see local mock pages. This checklist verifies the extension against the real site without exposing you to anything: it uses the harmless keyword **pizza**, which is common enough on YouTube to show up everywhere.
+The automated test suite only ever sees local mock pages. This document covers the real site, using the harmless keyword **pizza**, which is common enough on YouTube to show up everywhere.
+
+## Automated structural check (run this first)
+
+```
+npm run check:real
+```
+
+This drives a signed-out headless Firefox with the extension loaded through the real site: home, search suggestions, searches for "pizza" and "pasta", a safe video page (sidebar, hover preview, comments, in-page navigation), a pizza video page (block, pause, Go back), a safe and a pizza Short, a channel page, the blocklist, community posts, blur, reveal, strict mode, the off switch and the counters. Videos, Shorts and channels are picked from search results by link only.
+
+It prints structure only, never page text: for each surface, how many items were found, how many were hidden, how many were left unchecked (must be 0) and how many visible items still contain the keyword (must be 0). It takes about five minutes.
+
+Signed-out limitations: the home feed is usually empty, end screens need a video played to the end, and notifications need an account. Those three are the only steps left for the manual checklist below.
+
+## Manual checklist
 
 Report results as "hidden" or "not hidden" per step. If something leaks, note the page and the kind of item (tile, Short, comment, suggestion), not its content.
 
