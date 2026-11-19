@@ -11,8 +11,15 @@
 
   async function run(cmd, payload) {
     switch (cmd) {
-      case 'setSettings':
-        return SB.settings.save(payload);
+      case 'setSettings': {
+        const next = await SB.settings.save(payload);
+        // Apply right away instead of waiting for the storage change event,
+        // so the page reflects the new settings when this command returns.
+        SB.scanner.applySettings(next);
+        SB.watchGuard.applySettings(next);
+        SB.blur.applySettings(next);
+        return next;
+      }
       case 'getSettings':
         return SB.settings.load();
       case 'getState':
