@@ -56,15 +56,20 @@ async function launchBrowser() {
   return driver;
 }
 
-function popupUrl() {
-  return `moz-extension://${ADDON_UUID}/popup/popup.html`;
+function extensionUrl(pathname) {
+  return `moz-extension://${ADDON_UUID}/${pathname}`;
 }
 
-// Marionette refuses to navigate a content tab to moz-extension://, so the
-// popup page is opened in a new tab from Firefox's privileged (chrome)
-// context, then the driver switches to that tab.
-async function openPopup(driver) {
-  const url = popupUrl();
+function popupUrl() {
+  return extensionUrl('popup/popup.html');
+}
+
+// Marionette refuses to navigate a content tab to moz-extension://, so an
+// extension page is opened in a new tab from Firefox's privileged (chrome)
+// context, then the driver switches to that tab. `ready` is a script that
+// returns true once the page has rendered.
+async function openExtensionPage(driver, pathname, ready) {
+  const url = extensionUrl(pathname);
   const before = new Set(await driver.getAllWindowHandles());
   await driver.setContext(firefox.Context.CHROME);
   try {
@@ -80,9 +85,17 @@ async function openPopup(driver) {
   await driver.wait(async () => (await driver.getAllWindowHandles()).length > before.size, 5000, 'popup tab opened');
   const handle = (await driver.getAllWindowHandles()).find((h) => !before.has(h));
   await driver.switchTo().window(handle);
-  await driver.wait(async () => (await driver.getCurrentUrl()) === url, 5000, 'popup tab loaded');
-  await driver.wait(async () => driver.executeScript('return document.getElementById("strong").value.length > 0'), 5000, 'popup rendered');
+  await driver.wait(async () => (await driver.getCurrentUrl()) === url, 5000, 'extension tab loaded');
+  await driver.wait(async () => driver.executeScript(ready), 5000, 'extension page rendered');
   return handle;
+}
+
+async function openPopup(driver) {
+  return openExtensionPage(driver, 'popup/popup.html', 'return document.getElementById("strong-count").textContent !== "0"');
+}
+
+async function openOptions(driver, hash = '') {
+  return openExtensionPage(driver, 'options/options.html' + hash, 'return document.getElementById("strong").value.length > 0');
 }
 
 // Closes the current tab and returns to the first remaining one.
@@ -155,7 +168,10 @@ async function waitFor(driver, predicate, message, timeout = DEFAULT_TIMEOUT_MS)
 module.exports = {
   launchBrowser,
   popupUrl,
+  extensionUrl,
+  openExtensionPage,
   openPopup,
+  openOptions,
   closeTab,
   hook,
   openFixture,

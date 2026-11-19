@@ -8,7 +8,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { startServer } = require('./server');
-const { launchBrowser, openPopup, hook, openFixture, waitUntilSettled, waitFor, By } = require('./browser');
+const { launchBrowser, openPopup, openOptions, closeTab, hook, openFixture, waitUntilSettled, waitFor, By } = require('./browser');
 
 const OUT_DIR = path.join(__dirname, '..', '..', '..', 'docs', 'screenshots');
 const SETTINGS = {
@@ -52,11 +52,22 @@ async function main() {
     await shot(driver, 'watch-blocked.png');
 
     // Popup.
-    await driver.manage().window().setRect({ width: 380, height: 900 });
     await driver.sleep(1500); // let the content script flush its hidden count to storage
+    // Show the real default lists on the settings screenshots.
+    require(path.join(__dirname, '..', '..', '..', 'extension', 'content', 'settings.js'));
+    const defaults = globalThis.SpoilerBlocker.settings.DEFAULTS;
+    await hook(driver, 'setSettings', { strongKeywords: [...defaults.strongKeywords], weakKeywords: [...defaults.weakKeywords] });
+
+    // Options page with the welcome section.
+    await driver.manage().window().setRect({ width: 1000, height: 1100 });
+    await openOptions(driver, '#welcome');
+    await shot(driver, 'options.png');
+    await closeTab(driver);
+
+    // Popup.
+    await driver.manage().window().setRect({ width: 380, height: 430 });
     await openPopup(driver);
-    await driver.findElement(By.id('reset')).click(); // show the real default keyword lists
-    await waitFor(driver, async () => (await driver.findElement(By.id('strong')).getAttribute('value')).startsWith('GTA\n'), 'defaults shown');
+    await driver.sleep(400); // let the switch animation finish
     await shot(driver, 'popup.png');
   } finally {
     await driver.quit();

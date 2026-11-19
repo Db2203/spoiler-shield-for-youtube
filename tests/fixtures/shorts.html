@@ -20,6 +20,15 @@
         <ytd-page-manager id="page-manager">
           <ytd-shorts>
             <div id="shorts-container" data-mock-reels data-mock-kind="reel"></div>
+            <div id="shorts-panel-container">
+              <ytd-engagement-panel-section-list-renderer>
+                <ytd-structured-description-content-renderer>
+                  <ytd-expandable-video-description-body-renderer>
+                    <ytd-text-inline-expander id="inline-expander"><span id="snippet-text" data-mock-shorts-description></span></ytd-text-inline-expander>
+                  </ytd-expandable-video-description-body-renderer>
+                </ytd-structured-description-content-renderer>
+              </ytd-engagement-panel-section-list-renderer>
+            </div>
           </ytd-shorts>
         </ytd-page-manager>
       </div>
@@ -30,7 +39,8 @@
       [
         { "id": "s1", "title": "Cat discovers a cardboard box", "channel": "Pet Pals", "handle": "petpals" },
         { "id": "s2", "title": "Zorblax Quest 9 in 30 seconds", "channel": "Game Gossip", "handle": "gamegossip" },
-        { "id": "s3", "title": "Rainy day piano", "channel": "Keys and Chords", "handle": "keysandchords" }
+        { "id": "s3", "title": "Rainy day piano", "channel": "Keys and Chords", "handle": "keysandchords" },
+        { "id": "s4", "title": "Garden tour in late summer", "channel": "Plant Pal", "handle": "plantpal", "description": "Zorblax Quest 9 soundtrack plays in the background." }
       ]
     </script>
   </body>

@@ -98,6 +98,17 @@ test('a keyword hidden in the description is enough to block', async () => {
   assert.match((await playerState()).reason, /Zorblax Quest 9/);
 });
 
+test('with page matching set to title only, a description-only match is not blocked', async () => {
+  await loadWatch('w4', Object.assign({}, TEST_SETTINGS, { pageMatch: 'title' }));
+  await waitForStatus('ok');
+  await hook(driver, 'setSettings', { pageMatch: 'all' });
+  await waitForStatus('blocked');
+  // A title match is blocked in both modes.
+  await loadWatch('w2', Object.assign({}, TEST_SETTINGS, { pageMatch: 'title' }));
+  await waitForStatus('blocked');
+  await hook(driver, 'setSettings', { pageMatch: 'all' });
+});
+
 test('"Go back" returns to the previous page', async () => {
   await openFixture(driver, server.url('/'));
   await loadWatch('w2');

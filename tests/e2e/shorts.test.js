@@ -77,6 +77,28 @@ test('a matching Short is blocked and its playback stopped', async () => {
   await waitFor(driver, async () => driver.executeScript('return document.querySelector(\'ytd-reel-video-renderer[data-mock-id="s2"] video\').paused'), 'video paused again');
 });
 
+test('a Short whose keyword is only in the description panel is blocked, unless matching is title-only', async () => {
+  await openFixture(driver, server.url('/shorts/s4'));
+  await hook(driver, 'setSettings', Object.assign({}, TEST_SETTINGS, { pageMatch: 'all' }));
+  await waitForStatus('blocked');
+  await hook(driver, 'setSettings', { pageMatch: 'title' });
+  await waitForStatus('ok');
+  await hook(driver, 'setSettings', { pageMatch: 'all' });
+  await waitForStatus('blocked');
+});
+
+test('a Short is judged by the page title even when the reel carries no is-active attribute', async () => {
+  await openFixture(driver, server.url('/shorts/s2'));
+  await hook(driver, 'setSettings', TEST_SETTINGS);
+  await waitForStatus('blocked');
+  await driver.executeScript(function () {
+    // Simulate a layout without the attribute and with the reel text arriving late.
+    for (const el of document.querySelectorAll('ytd-reel-video-renderer')) el.removeAttribute('is-active');
+  });
+  await driver.sleep(300);
+  assert.equal(await pageStatus(), 'blocked');
+});
+
 test('scrolling from a safe Short to a matching one blocks, and onwards unblocks', async () => {
   await openFixture(driver, server.url('/shorts/s1'));
   await hook(driver, 'setSettings', TEST_SETTINGS);

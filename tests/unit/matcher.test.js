@@ -7,7 +7,7 @@ const path = require('node:path');
 const matcher = require(path.join(__dirname, '..', '..', 'extension', 'content', 'matcher.js'));
 // settings.js only attaches to globalThis; it never touches `browser` at load time.
 require(path.join(__dirname, '..', '..', 'extension', 'content', 'settings.js'));
-const { DEFAULTS, normalize, cleanList } = globalThis.SpoilerBlocker.settings;
+const { DEFAULTS, PRESETS, normalize, cleanList } = globalThis.SpoilerBlocker.settings;
 
 // All text below is invented. "Zorblax Quest 9" is a fictional game.
 const fictional = matcher.createMatcher({
@@ -124,4 +124,11 @@ test('settings.normalize merges stored values over defaults', () => {
   assert.equal(merged.strictMode, false);
   assert.deepEqual(normalize(undefined), normalize({}));
   assert.deepEqual(cleanList(['A', 'a', '', 'B ']), ['A', 'B']);
+  assert.equal(normalize({ pageMatch: 'title' }).pageMatch, 'title');
+  assert.equal(normalize({ pageMatch: 'bogus' }).pageMatch, 'all', 'unknown modes fall back to the safe default');
+});
+
+test('the GTA 6 preset is the default keyword set', () => {
+  assert.deepEqual([...PRESETS.gta6.strongKeywords], DEFAULTS.strongKeywords);
+  assert.deepEqual([...PRESETS.gta6.weakKeywords], DEFAULTS.weakKeywords);
 });
