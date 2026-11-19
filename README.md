@@ -1,16 +1,29 @@
 # GTA 6 Spoiler Blocker
 
+[![CI](https://github.com/Db2203/gta6-spoiler-blocker/actions/workflows/ci.yml/badge.svg)](https://github.com/Db2203/gta6-spoiler-blocker/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Firefox](https://img.shields.io/badge/Firefox-140%2B-orange)
+
 A Firefox extension that keeps GTA 6 off your YouTube feed while you wait for the PC release.
 
 It hides matching videos, Shorts, comments, community posts and search suggestions, blocks matching video pages outright, and can blur every thumbnail until you choose to look. Everything runs locally in your browser: no network requests, no accounts, no data collection.
 
-> **Status:** v0.3.0, feature complete. Every surface is covered, matching pages are blocked outright, and thumbnails can be blurred with click to reveal. What remains before 1.0 is a performance pass, a manual test guide and CI. See the [roadmap](#roadmap).
+<p align="center">
+  <img src="docs/screenshots/home-filtered.png" alt="Home page with matching tiles removed" width="49%">
+  <img src="docs/screenshots/home-blurred.png" alt="Home page with thumbnails blurred and one revealed" width="49%">
+</p>
+<p align="center">
+  <img src="docs/screenshots/watch-blocked.png" alt="Blocked video page with Go back button" width="49%">
+  <img src="docs/screenshots/popup.png" alt="Settings popup" width="24%">
+</p>
+
+*Screenshots are taken from the project's own mock pages. The titles are invented.*
 
 ## How it works
 
 - **Keyword matching.** Two editable lists. A *strong* keyword hides an item on its own. *Weak* keywords only count when two different ones appear together, which keeps common words like a first name from hiding unrelated videos. Matching is case-insensitive and whole-word, so `GTA` does not match the middle of another word.
-- **Fails closed.** Every video tile is invisible from the moment it enters the page until the extension has checked it. The hiding is done by a stylesheet injected before the page runs, so if the checking code ever crashes, stalls or is out of date, content stays hidden rather than leaking through.
-- **Keeps up with YouTube.** Infinite scroll, recycled tiles and in-page navigation are all watched with a mutation observer that decides each item before the browser paints it.
+- **Fails closed.** Every tile, comment and suggestion is invisible from the moment it enters the page until the extension has checked it. The hiding is done by a stylesheet injected before the page runs, so if the checking code ever crashes, stalls or is out of date, content stays hidden rather than leaking through.
+- **Keeps up with YouTube.** Infinite scroll, recycled tiles and in-page navigation are all watched with a mutation observer that decides each item before the browser paints it. 500 tiles inserted at once are decided in about 50 ms.
 - **Blocks whole pages.** If you land on a matching video, Short or channel, playback stops, the page is covered and a "Go back" button takes you to where you were. The player stays hidden until the page's own title and description have been checked, so nothing flashes through.
 - **Channel blocklist.** Add a handle or channel name and every one of their videos, Shorts, posts and comments disappears, along with their channel page.
 - **No hover previews.** Thumbnails never start playing when you mouse over them.
@@ -22,14 +35,16 @@ Default weak keywords: `Rockstar`, `Lucia`, `Jason`.
 
 ## Install
 
-The extension is not on addons.mozilla.org yet. To load it from source:
+The extension is not on addons.mozilla.org. Load it from the source or from a release zip:
 
-1. Clone this repository.
+1. Download the zip from the [latest release](https://github.com/Db2203/gta6-spoiler-blocker/releases), or clone this repository.
 2. Open `about:debugging#/runtime/this-firefox` in Firefox.
-3. Click **Load Temporary Add-on…** and pick `extension/manifest.json`.
+3. Click **Load Temporary Add-on…** and pick the zip, or `extension/manifest.json` from the clone.
 4. Open YouTube. The toolbar button opens the settings popup.
 
-Temporary add-ons are removed when Firefox closes. A packaged build for permanent installation is planned for v1.0.
+Temporary add-ons are removed when Firefox closes, so repeat the steps after a restart. A permanent install needs the zip signed by Mozilla (self-distribution), which is a possible follow-up.
+
+Firefox grants access to youtube.com when the add-on loads. If you ever revoke it, the popup shows an **Allow on youtube.com** button.
 
 ## Settings
 
@@ -50,28 +65,33 @@ npm install
 npm run test:unit     # keyword matcher, runs in Node
 npm run test:e2e      # loads the extension into headless Firefox against local mock pages
 npm run lint          # web-ext lint
+npm run build         # packages extension/ into web-ext-artifacts/*.zip
+npm run screenshots   # regenerates docs/screenshots from the mock pages
 ```
 
 The end-to-end tests never touch youtube.com. They serve mock pages from `tests/fixtures/` that copy YouTube's DOM structure with invented content, install a test build of the extension as a temporary add-on, and assert on computed styles. Selenium Manager downloads a matching geckodriver on first run; set `FIREFOX_BIN` if Firefox is installed somewhere unusual, or `SB_HEADED=1` to watch the tests run.
+
+A manual checklist for the real site, using the harmless keyword "pizza", is in [docs/manual-testing.md](docs/manual-testing.md).
 
 ### Project layout
 
 ```
 extension/
-  manifest.json         Manifest V3, Firefox
-  content/hide.css      fail-closed rules
-  content/matcher.js    keyword logic (pure, unit tested)
-  content/selectors.js  every YouTube selector in one place
-  content/settings.js   defaults and storage
-  content/scanner.js    mutation observer, marking, counting
+  manifest.json           Manifest V3, Firefox
+  content/hide.css        fail-closed rules, blur, overlay
+  content/matcher.js      keyword logic (pure, unit tested)
+  content/selectors.js    every YouTube selector in one place
+  content/settings.js     defaults and storage
+  content/scanner.js      mutation observer, marking, counting
   content/watch-guard.js  blocks matching video, Shorts and channel pages
-  content/blur.js       thumbnail blur and click to reveal
-  content/main.js       bootstrap
-  popup/                settings UI
+  content/blur.js         thumbnail blur and click to reveal
+  content/main.js         bootstrap
+  popup/                  settings UI
 tests/
-  unit/                 node:test
-  e2e/                  selenium-webdriver + headless Firefox
-  fixtures/             mock YouTube pages
+  unit/                   node:test
+  e2e/                    selenium-webdriver + headless Firefox, one file per surface
+  fixtures/               mock YouTube pages
+docs/                     manual test guide, screenshots
 ```
 
 ## Roadmap
@@ -79,7 +99,8 @@ tests/
 - [x] v0.1.0: keyword filtering of video tiles, on/off switch, editable keyword lists, hidden counter
 - [x] v0.2.0: Shorts, comments, community posts, search suggestions, end screens, channel blocklist, video page blocking with a "Go back" screen, hover previews off
 - [x] v0.3.0: thumbnail blur with click to reveal, strict mode
-- [ ] v1.0.0: performance pass, packaged build, manual test guide
+- [x] v1.0.0: performance guard, packaged build, CI, manual test guide
+- [ ] Later: signed build for permanent installation
 
 ## Privacy
 

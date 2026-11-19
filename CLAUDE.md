@@ -23,6 +23,15 @@ Firefox extension (Manifest V3, plain JavaScript, no build step) that hides GTA 
 - `npm run test:unit` — matcher tests (`node --test`)
 - `npm run test:e2e` — Firefox tests against `tests/fixtures/`
 - `npm run lint` — `web-ext lint` on `extension/`
+- `npm run build` — zip in `web-ext-artifacts/`
+- `npm run screenshots` — regenerates `docs/screenshots/` from the mock pages (never from YouTube)
+
+## Testing notes
+
+- The test build (`.test-extension/`) adds a 127.0.0.1 match and `content/test-hooks.js`; the real build has neither.
+- The fixture server routes YouTube-shaped paths (`/watch`, `/shorts/x`, `/@handle`) to fixture files.
+- The popup is opened in a tab from Firefox's chrome context, which needs `MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1` (set by the launcher) and a pinned UUID via the `extensions.webextensions.uuids` pref.
+- Fixture videos play a muted canvas stream so `paused` is meaningful.
 
 ## Git
 
