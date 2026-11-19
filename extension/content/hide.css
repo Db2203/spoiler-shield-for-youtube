@@ -61,6 +61,66 @@ html:not([data-sb-off]) :is(
   display: none !important;
 }
 
+/* ---- Thumbnail blur (optional) ---- */
+
+html:not([data-sb-off])[data-sb-blur] :is(
+  ytd-thumbnail,
+  yt-thumbnail-view-model,
+  ytd-playlist-thumbnail,
+  .shortsLockupViewModelHostThumbnailContainer,
+  .ytp-ce-covering-overlay,
+  .ytp-videowall-still
+) {
+  overflow: hidden !important;
+  position: relative;
+}
+
+html:not([data-sb-off])[data-sb-blur] :is(
+  ytd-thumbnail img,
+  yt-thumbnail-view-model img,
+  ytd-playlist-thumbnail img,
+  .shortsLockupViewModelHostThumbnailContainer img,
+  .ytp-ce-covering-image,
+  .ytp-videowall-still-image,
+  ytd-moving-thumbnail-renderer
+) {
+  filter: blur(22px) !important;
+  transform: scale(1.15);
+}
+
+/* "Click to reveal" hint, only when revealing is allowed. */
+html:not([data-sb-off])[data-sb-blur]:not([data-sb-strict]) :is(
+  ytd-thumbnail,
+  yt-thumbnail-view-model,
+  ytd-playlist-thumbnail,
+  .shortsLockupViewModelHostThumbnailContainer
+):not([data-sb-reveal] *)::after {
+  content: "Click to reveal";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font: 600 13px/1 system-ui, "Segoe UI", Roboto, sans-serif;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* A revealed tile shows its thumbnails normally, unless strict mode is on. */
+html:not([data-sb-off])[data-sb-blur]:not([data-sb-strict]) [data-sb-reveal] :is(
+  ytd-thumbnail img,
+  yt-thumbnail-view-model img,
+  ytd-playlist-thumbnail img,
+  .shortsLockupViewModelHostThumbnailContainer img,
+  .ytp-ce-covering-image,
+  .ytp-videowall-still-image
+) {
+  filter: none !important;
+  transform: none;
+}
+
 /* ---- Watch, Shorts and channel pages ---- */
 
 /* While the page's own metadata is being checked, the player stays hidden. */
