@@ -1,6 +1,6 @@
-# GTA 6 Spoiler Blocker — project rules
+# Spoiler Shield for YouTube — project rules
 
-Firefox extension (Manifest V3, plain JavaScript, no build step) that hides GTA 6 content on YouTube so the user can wait for the PC release spoiler-free.
+Firefox extension (Manifest V3, plain JavaScript, no build step) that hides keyword-matching content on YouTube. Built so the user can wait for the GTA 6 PC release spoiler-free; the GTA 6 keyword list is the default preset. Renamed from "GTA 6 Spoiler Blocker" for the addons.mozilla.org listing (trademark); the gecko id must never change.
 
 ## Spoiler-safety rules (apply to every task in this project, no exceptions)
 
@@ -11,7 +11,7 @@ Firefox extension (Manifest V3, plain JavaScript, no build step) that hides GTA 
 
 ## Stack and conventions
 
-- Firefox only. MV3 with `browser_specific_settings.gecko.id`; no `background` key (if ever needed use `background.scripts`, never `service_worker`).
+- Firefox only. MV3 with `browser_specific_settings.gecko.id`. `background.scripts` event page (never `service_worker`) used only for the toolbar badge and the first-run page.
 - Plain JS content scripts attach to `globalThis.SpoilerBlocker`; `extension/content/matcher.js` also exports via `module.exports` so Node unit tests can load it.
 - Fail closed: candidate containers are hidden by CSS until the scanner marks them `data-sb="ok"`. Never write code that reveals content on error.
 - No network requests, no analytics, no remote code. `storage.local` only.

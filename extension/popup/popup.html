@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>GTA 6 Spoiler Blocker</title>
+    <title>Spoiler Shield for YouTube</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <header>
-      <h1>GTA 6 Spoiler Blocker</h1>
-      <label class="switch" title="Turn the blocker on or off">
+      <h1>Spoiler Shield</h1>
+      <label class="switch" title="Turn the shield on or off">
         <input type="checkbox" id="enabled" />
         <span class="track"><span class="thumb"></span></span>
         <span class="switch-label" id="enabled-label">On</span>
@@ -27,20 +27,8 @@
     </section>
 
     <section class="notice" id="permission" hidden>
-      <p>The blocker does not have access to youtube.com yet.</p>
+      <p>The shield does not have access to youtube.com yet.</p>
       <button type="button" id="grant">Allow on youtube.com</button>
-    </section>
-
-    <section class="field">
-      <label for="strong">Strong keywords</label>
-      <p class="hint">One per line. Any one of these hides an item on its own.</p>
-      <textarea id="strong" rows="7" spellcheck="false"></textarea>
-    </section>
-
-    <section class="field">
-      <label for="weak">Weak keywords</label>
-      <p class="hint">One per line. Two different weak keywords together hide an item.</p>
-      <textarea id="weak" rows="3" spellcheck="false"></textarea>
     </section>
 
     <section class="options">
@@ -60,14 +48,14 @@
       </label>
     </section>
 
-    <section class="field">
-      <label for="channels">Blocked channels</label>
-      <p class="hint">One per line, as @handle or channel name. Hides all their videos and their channel page.</p>
-      <textarea id="channels" rows="3" spellcheck="false" placeholder="@example"></textarea>
+    <section class="summary" id="summary" aria-label="Active keyword lists">
+      <span><strong id="strong-count">0</strong> strong keywords</span>
+      <span><strong id="weak-count">0</strong> weak keywords</span>
+      <span><strong id="channel-count">0</strong> blocked channels</span>
     </section>
 
     <footer>
-      <button type="button" id="reset" class="secondary">Restore default keywords</button>
+      <button type="button" id="manage">Manage keywords and channels</button>
       <span class="status" id="status" aria-live="polite"></span>
     </footer>
 

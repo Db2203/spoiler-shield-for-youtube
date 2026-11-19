@@ -1,31 +1,45 @@
 /*
- * Settings: defaults, storage access and change notifications.
- * Shared by the content scripts and the popup. Everything lives in
- * browser.storage.local; nothing ever leaves the browser.
+ * Settings: defaults, presets, storage access and change notifications.
+ * Shared by the content scripts, the popup and the options page. Everything
+ * lives in browser.storage.local; nothing ever leaves the browser.
  */
 (function (root) {
   'use strict';
 
   const SB = (root.SpoilerBlocker = root.SpoilerBlocker || {});
 
+  // Keyword packs. The GTA 6 pack is the default on a fresh install.
+  const PRESETS = Object.freeze({
+    gta6: Object.freeze({
+      name: 'GTA 6',
+      strongKeywords: Object.freeze([
+        'GTA',
+        'GTA 6',
+        'GTA6',
+        'GTA VI',
+        'GTAVI',
+        'Grand Theft Auto',
+        'Leonida',
+        'Vice City',
+        'Jason Duval',
+        'Lucia Caminos',
+      ]),
+      weakKeywords: Object.freeze(['Rockstar', 'Lucia', 'Jason']),
+    }),
+  });
+
+  const PAGE_MATCH_MODES = Object.freeze(['all', 'title']);
+
   const DEFAULTS = Object.freeze({
     enabled: true,
-    strongKeywords: [
-      'GTA',
-      'GTA 6',
-      'GTA6',
-      'GTA VI',
-      'GTAVI',
-      'Grand Theft Auto',
-      'Leonida',
-      'Vice City',
-      'Jason Duval',
-      'Lucia Caminos',
-    ],
-    weakKeywords: ['Rockstar', 'Lucia', 'Jason'],
+    strongKeywords: [...PRESETS.gta6.strongKeywords],
+    weakKeywords: [...PRESETS.gta6.weakKeywords],
     blockedChannels: [],
     blurThumbnails: false,
     strictMode: false,
+    // 'all': a video page is blocked when a keyword appears in its title,
+    //        channel or description. 'title': title and channel only.
+    pageMatch: 'all',
   });
 
   const STORAGE_KEY = 'settings';
@@ -55,6 +69,7 @@
       blockedChannels: Array.isArray(s.blockedChannels) ? cleanList(s.blockedChannels) : [],
       blurThumbnails: typeof s.blurThumbnails === 'boolean' ? s.blurThumbnails : DEFAULTS.blurThumbnails,
       strictMode: typeof s.strictMode === 'boolean' ? s.strictMode : DEFAULTS.strictMode,
+      pageMatch: PAGE_MATCH_MODES.includes(s.pageMatch) ? s.pageMatch : DEFAULTS.pageMatch,
     };
   }
 
@@ -69,6 +84,13 @@
     const next = normalize(Object.assign({}, current, partial));
     await browser.storage.local.set({ [STORAGE_KEY]: next });
     return next;
+  }
+
+  // Replaces both keyword lists with a preset's lists.
+  async function applyPreset(id) {
+    const preset = PRESETS[id];
+    if (!preset) throw new Error('unknown preset: ' + id);
+    return save({ strongKeywords: [...preset.strongKeywords], weakKeywords: [...preset.weakKeywords] });
   }
 
   function onChange(callback) {
@@ -91,5 +113,22 @@
     return stats;
   }
 
-  SB.settings = { DEFAULTS, normalize, cleanList, load, save, onChange, loadStats, addToStats };
+  async function resetStats() {
+    await browser.storage.local.set({ [STATS_KEY]: { hiddenTotal: 0 } });
+  }
+
+  SB.settings = {
+    DEFAULTS,
+    PRESETS,
+    PAGE_MATCH_MODES,
+    normalize,
+    cleanList,
+    load,
+    save,
+    applyPreset,
+    onChange,
+    loadStats,
+    addToStats,
+    resetStats,
+  };
 })(globalThis);

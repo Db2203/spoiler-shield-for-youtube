@@ -1,17 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "GTA 6 Spoiler Blocker",
-  "version": "1.0.1",
-  "description": "Hides GTA 6 videos, Shorts, comments and search suggestions on YouTube. Runs entirely offline.",
-  "homepage_url": "https://github.com/Db2203/gta6-spoiler-blocker",
+  "name": "Spoiler Shield for YouTube",
+  "version": "1.1.0",
+  "description": "Hides videos, Shorts, comments and search suggestions that match your keywords, and blocks matching video pages. Ships with a GTA 6 preset. Runs entirely offline.",
+  "homepage_url": "https://github.com/Db2203/spoiler-shield-for-youtube",
   "browser_specific_settings": {
     "gecko": {
       "id": "gta6-spoiler-blocker@db2203.github.io",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
-        "required": [
-          "none"
-        ]
+        "required": ["none"]
       }
     }
   },
@@ -20,22 +18,17 @@
     "96": "icons/icon.svg",
     "128": "icons/icon.svg"
   },
-  "permissions": [
-    "storage"
-  ],
-  "host_permissions": [
-    "*://*.youtube.com/*"
-  ],
+  "permissions": ["storage"],
+  "host_permissions": ["*://*.youtube.com/*"],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.youtube.com/*"
-      ],
+      "matches": ["*://*.youtube.com/*"],
       "run_at": "document_start",
       "all_frames": false,
-      "css": [
-        "content/hide.css"
-      ],
+      "css": ["content/hide.css"],
       "js": [
         "content/matcher.js",
         "content/selectors.js",
@@ -48,11 +41,15 @@
     }
   ],
   "action": {
-    "default_title": "GTA 6 Spoiler Blocker",
+    "default_title": "Spoiler Shield for YouTube",
     "default_popup": "popup/popup.html",
     "default_icon": {
       "48": "icons/icon.svg",
       "96": "icons/icon.svg"
     }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
   }
 }
