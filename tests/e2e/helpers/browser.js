@@ -11,12 +11,18 @@
  */
 
 const fs = require('node:fs');
+const path = require('node:path');
 const { Builder, By, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 const { buildTestExtension } = require('./build-extension');
 
 const WINDOWS_FIREFOX = 'C:\\Program Files\\Mozilla Firefox\\firefox.exe';
 const DEFAULT_TIMEOUT_MS = 10000;
+
+// Pinning the internal UUID lets tests open moz-extension:// pages (the popup).
+const ADDON_ID = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '..', 'extension', 'manifest.json'), 'utf8'))
+  .browser_specific_settings.gecko.id;
+const ADDON_UUID = '7c1d2b2e-5b1a-4e8c-9f3a-2f6e1a9d0c11';
 
 function firefoxBinary() {
   if (process.env.FIREFOX_BIN) return process.env.FIREFOX_BIN;
@@ -25,9 +31,13 @@ function firefoxBinary() {
 }
 
 async function launchBrowser() {
+  // Lets openPopup() run a script in Firefox's chrome context. Firefox inherits
+  // this from geckodriver, which inherits it from this process.
+  process.env.MOZ_REMOTE_ALLOW_SYSTEM_ACCESS = '1';
   const extensionDir = buildTestExtension();
   const options = new firefox.Options()
     .setPreference('extensions.originControls.grantByDefault', true)
+    .setPreference('extensions.webextensions.uuids', JSON.stringify({ [ADDON_ID]: ADDON_UUID }))
     .setPreference('devtools.console.stdout.content', true)
     .setPreference('browser.cache.disk.enable', false)
     .setPreference('browser.cache.memory.enable', false)
@@ -44,6 +54,42 @@ async function launchBrowser() {
   const driver = await builder.build();
   await driver.installAddon(extensionDir, true);
   return driver;
+}
+
+function popupUrl() {
+  return `moz-extension://${ADDON_UUID}/popup/popup.html`;
+}
+
+// Marionette refuses to navigate a content tab to moz-extension://, so the
+// popup page is opened in a new tab from Firefox's privileged (chrome)
+// context, then the driver switches to that tab.
+async function openPopup(driver) {
+  const url = popupUrl();
+  const before = new Set(await driver.getAllWindowHandles());
+  await driver.setContext(firefox.Context.CHROME);
+  try {
+    await driver.executeScript(function (url) {
+      const win = Services.wm.getMostRecentWindow('navigator:browser');
+      win.gBrowser.selectedTab = win.gBrowser.addTab(url, {
+        triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
+      });
+    }, url);
+  } finally {
+    await driver.setContext(firefox.Context.CONTENT);
+  }
+  await driver.wait(async () => (await driver.getAllWindowHandles()).length > before.size, 5000, 'popup tab opened');
+  const handle = (await driver.getAllWindowHandles()).find((h) => !before.has(h));
+  await driver.switchTo().window(handle);
+  await driver.wait(async () => (await driver.getCurrentUrl()) === url, 5000, 'popup tab loaded');
+  await driver.wait(async () => driver.executeScript('return document.getElementById("strong").value.length > 0'), 5000, 'popup rendered');
+  return handle;
+}
+
+// Closes the current tab and returns to the first remaining one.
+async function closeTab(driver) {
+  await driver.close();
+  const handles = await driver.getAllWindowHandles();
+  await driver.switchTo().window(handles[0]);
 }
 
 // Sends a command to the test-only hook script inside the content script.
@@ -106,4 +152,16 @@ async function waitFor(driver, predicate, message, timeout = DEFAULT_TIMEOUT_MS)
   await driver.wait(predicate, timeout, message);
 }
 
-module.exports = { launchBrowser, hook, openFixture, visibilityMap, waitUntilSettled, waitFor, By, until };
+module.exports = {
+  launchBrowser,
+  popupUrl,
+  openPopup,
+  closeTab,
+  hook,
+  openFixture,
+  visibilityMap,
+  waitUntilSettled,
+  waitFor,
+  By,
+  until,
+};
