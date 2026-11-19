@@ -6,6 +6,16 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-19
+
+### Fixed
+
+- On a video page the guard could report "ok" from the document title alone, about a second before the page body and heading had rendered. An early decision can now only be "blocked"; "ok" waits until the watch container carries the URL's video id and the heading is present.
+
+### Added
+
+- `npm run check:real`: a structural check against the real YouTube site in headless Firefox using the keyword "pizza". It reports counts only (found, hidden, unchecked, leaked) and never prints page text. Verified on 2026-11-19: 20 checks passed with zero leaks and zero unchecked items across suggestions, search, Shorts, watch pages, sidebar, comments, in-page navigation, channel pages, the blocklist, blur, reveal, strict mode, the off switch and the counters.
+
 ## [1.0.0] - 2026-11-19
 
 ### Added
@@ -48,7 +58,8 @@ All notable changes to this project are documented here. The format follows
 - Settings popup with on/off switch, editable keyword lists and hidden counters.
 - Unit tests for the matcher and end-to-end tests that drive headless Firefox against local mock pages.
 
-[Unreleased]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Db2203/gta6-spoiler-blocker/compare/v0.1.0...v0.2.0

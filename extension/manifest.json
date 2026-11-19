@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GTA 6 Spoiler Blocker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hides GTA 6 videos, Shorts, comments and search suggestions on YouTube. Runs entirely offline.",
   "homepage_url": "https://github.com/Db2203/gta6-spoiler-blocker",
   "browser_specific_settings": {
