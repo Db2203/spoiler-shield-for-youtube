@@ -1,6 +1,6 @@
 {
   "name": "spoiler-shield-for-youtube",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Firefox extension that hides YouTube videos, Shorts, comments and search suggestions matching your keywords and blocks matching pages. Ships with a GTA 6 preset. Runs fully offline.",
   "license": "MIT",

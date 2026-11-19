@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-20
+
+Version bump only, for the first listed submission to addons.mozilla.org (1.1.0 had already been signed for self-distribution and a version number can be uploaded once). No functional changes.
+
 ## [1.1.0] - 2026-11-20
 
 ### Changed
@@ -78,7 +82,8 @@ All notable changes to this project are documented here. The format follows
 - Settings popup with on/off switch, editable keyword lists and hidden counters.
 - Unit tests for the matcher and end-to-end tests that drive headless Firefox against local mock pages.
 
-[Unreleased]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v0.3.0...v1.0.0
