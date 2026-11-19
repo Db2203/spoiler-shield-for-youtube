@@ -13,7 +13,8 @@
     "build:test-extension": "node tests/e2e/helpers/build-extension.js",
     "build": "web-ext build --source-dir extension --artifacts-dir web-ext-artifacts --overwrite-dest",
     "screenshots": "node tests/e2e/helpers/screenshots.js",
-    "check:real": "node scripts/real-youtube-check.js"
+    "check:real": "node scripts/real-youtube-check.js",
+    "sign": "web-ext sign --source-dir extension --artifacts-dir web-ext-artifacts --channel unlisted"
   },
   "devDependencies": {
     "selenium-webdriver": "^4.35.0",

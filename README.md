@@ -35,16 +35,32 @@ Default weak keywords: `Rockstar`, `Lucia`, `Jason`.
 
 ## Install
 
-The extension is not on addons.mozilla.org. Load it from the source or from a release zip:
+The extension is not listed on addons.mozilla.org. There are two ways to run it.
+
+### Permanent install (signed, behaves like any other extension)
+
+Release Firefox only keeps extensions that Mozilla has signed. Mozilla signs self-distributed extensions for free, without listing them, in about a minute:
+
+1. Create a free account at [addons.mozilla.org](https://addons.mozilla.org/) and generate API credentials at [addons.mozilla.org/developers/addon/api/key/](https://addons.mozilla.org/developers/addon/api/key/).
+2. In a terminal in this folder, set the two credentials as environment variables and run the sign script. PowerShell:
+
+   ```powershell
+   $env:WEB_EXT_API_KEY = "user:12345:678"
+   $env:WEB_EXT_API_SECRET = "your-secret"
+   npm run sign
+   ```
+
+3. A signed `.xpi` appears in `web-ext-artifacts/`. Open it in Firefox (drag it onto a window, or File > Open File) and click **Add**.
+
+The extension now shows up in `about:addons`, survives restarts, and can be disabled or removed like any other. To update it, bump `version` in `extension/manifest.json`, run `npm run sign` again and open the new `.xpi`. Mozilla rejects a re-upload of an already-signed version number.
+
+### Temporary install (no account needed, gone after a restart)
 
 1. Download the zip from the [latest release](https://github.com/Db2203/gta6-spoiler-blocker/releases), or clone this repository.
 2. Open `about:debugging#/runtime/this-firefox` in Firefox.
 3. Click **Load Temporary Add-on…** and pick the zip, or `extension/manifest.json` from the clone.
-4. Open YouTube. The toolbar button opens the settings popup.
 
-Temporary add-ons are removed when Firefox closes, so repeat the steps after a restart. A permanent install needs the zip signed by Mozilla (self-distribution), which is a possible follow-up.
-
-Firefox grants access to youtube.com when the add-on loads. If you ever revoke it, the popup shows an **Allow on youtube.com** button.
+Either way, open YouTube afterwards. The toolbar button opens the settings popup. Firefox grants access to youtube.com when the add-on is installed; if you ever revoke it, the popup shows an **Allow on youtube.com** button.
 
 ## Settings
 
@@ -66,6 +82,7 @@ npm run test:unit     # keyword matcher, runs in Node
 npm run test:e2e      # loads the extension into headless Firefox against local mock pages
 npm run lint          # web-ext lint
 npm run build         # packages extension/ into web-ext-artifacts/*.zip
+npm run sign          # gets the package signed by Mozilla (needs WEB_EXT_API_KEY / WEB_EXT_API_SECRET)
 npm run screenshots   # regenerates docs/screenshots from the mock pages
 ```
 
@@ -100,7 +117,7 @@ docs/                     manual test guide, screenshots
 - [x] v0.2.0: Shorts, comments, community posts, search suggestions, end screens, channel blocklist, video page blocking with a "Go back" screen, hover previews off
 - [x] v0.3.0: thumbnail blur with click to reveal, strict mode
 - [x] v1.0.0: performance guard, packaged build, CI, manual test guide
-- [ ] Later: signed build for permanent installation
+- [x] Signed build for permanent installation (`npm run sign`)
 
 ## Privacy
 

@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `npm run sign`: submits the package to Mozilla for self-distribution signing, producing an `.xpi` that installs permanently in release Firefox. README documents the steps.
+
 ## [1.0.1] - 2026-11-19
 
 ### Fixed
