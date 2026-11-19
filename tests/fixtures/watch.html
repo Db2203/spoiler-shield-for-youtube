@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>YouTube</title>
+    <link rel="stylesheet" href="/mock.css" />
+    <script src="/mock.js"></script>
+    <style>
+      ytd-watch-flexy #columns { display: grid; grid-template-columns: 1fr 400px; gap: 24px; padding: 24px; }
+      #movie_player { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; }
+      #movie_player video { width: 100%; height: 100%; }
+      .ytp-ce-element { position: absolute; bottom: 16px; width: 200px; padding: 8px; background: rgba(0,0,0,0.7); border-radius: 8px; }
+      .ytp-ce-element:nth-of-type(1) { left: 16px; }
+      .ytp-ce-element:nth-of-type(2) { left: 232px; }
+      .ytp-endscreen-content { position: absolute; top: 16px; right: 16px; display: flex; gap: 8px; }
+      .ytp-videowall-still { display: block; width: 160px; padding: 6px; background: rgba(0,0,0,0.7); border-radius: 8px; }
+      ytd-watch-metadata { display: block; padding: 16px 0; }
+      ytd-watch-metadata h1 { font-size: 20px; margin: 0 0 8px; }
+      ytd-comments { display: block; }
+      ytd-comment-thread-renderer { display: block; padding: 12px 0; border-top: 1px solid #272727; }
+      ytd-comment-view-model { display: block; }
+      #replies ytd-comment-view-model { margin-left: 48px; padding-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <ytd-app>
+      <ytd-masthead id="masthead"><input type="text" placeholder="Search" aria-label="Search" /></ytd-masthead>
+      <div id="content">
+        <ytd-page-manager id="page-manager">
+          <ytd-watch-flexy video-id="">
+            <div id="columns">
+              <div id="primary">
+                <div id="primary-inner">
+                  <div id="player">
+                    <ytd-player>
+                      <div id="movie_player" class="html5-video-player">
+                        <div class="html5-video-container"><video class="html5-main-video"></video></div>
+                        <div class="ytp-endscreen-content" data-mock-videowall data-mock-kind="videowall"></div>
+                        <div data-mock-endscreen data-mock-kind="endscreen"></div>
+                      </div>
+                    </ytd-player>
+                  </div>
+                  <ytd-watch-metadata>
+                    <div id="above-the-fold">
+                      <div id="title"><h1><yt-formatted-string></yt-formatted-string></h1></div>
+                      <div id="owner">
+                        <ytd-video-owner-renderer>
+                          <ytd-channel-name id="channel-name"><div id="container"><div id="text-container"><yt-formatted-string id="text"><a href=""></a></yt-formatted-string></div></div></ytd-channel-name>
+                        </ytd-video-owner-renderer>
+                      </div>
+                    </div>
+                    <div id="description">
+                      <ytd-text-inline-expander id="description-inline-expander"><yt-formatted-string></yt-formatted-string></ytd-text-inline-expander>
+                    </div>
+                  </ytd-watch-metadata>
+                  <ytd-comments id="comments">
+                    <ytd-item-section-renderer><div id="contents" data-mock-comments data-mock-kind="comment"></div></ytd-item-section-renderer>
+                  </ytd-comments>
+                </div>
+              </div>
+              <div id="secondary">
+                <div id="secondary-inner">
+                  <div id="related">
+                    <ytd-watch-next-secondary-results-renderer>
+                      <div id="items" data-mock-contents data-mock-kind="lockup"></div>
+                    </ytd-watch-next-secondary-results-renderer>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ytd-watch-flexy>
+        </ytd-page-manager>
+      </div>
+    </ytd-app>
+
+    <!-- Invented content. "Zorblax Quest 9" is a fictional game. -->
+    <script type="application/json" data-mock-watch>
+      [
+        { "id": "w1", "title": "Sourdough scoring patterns", "channel": "Kitchen Corner", "handle": "kitchencorner", "description": "Four patterns for a better crust." },
+        { "id": "w2", "title": "Best pizza ovens of the year", "channel": "Food Finder", "handle": "foodfinder", "description": "We tested nine ovens." },
+        { "id": "w3", "title": "Weekly news roundup", "channel": "Game Gossip", "handle": "gamegossip", "description": "Everything that happened this week." },
+        { "id": "w4", "title": "Garden tour in late summer", "channel": "Plant Pal", "handle": "plantpal", "description": "Zorblax Quest 9 soundtrack plays in the background." }
+      ]
+    </script>
+    <script type="application/json" data-mock-items="[data-mock-contents]">
+      [
+        { "id": "sb1", "title": "Evening piano practice", "channel": "Keys and Chords", "handle": "keysandchords" },
+        { "id": "sb2", "title": "Pizza night vlog", "channel": "Food Finder", "handle": "foodfinder" },
+        { "id": "sb3", "title": "Zorblax quest walkthrough", "channel": "Game Gossip", "handle": "gamegossip" }
+      ]
+    </script>
+    <script type="application/json" data-mock-items="[data-mock-endscreen]">
+      [
+        { "id": "e1", "title": "More bread recipes", "channel": "Kitchen Corner" },
+        { "id": "e2", "title": "Pizza dough masterclass", "channel": "Kitchen Corner" }
+      ]
+    </script>
+    <script type="application/json" data-mock-items="[data-mock-videowall]">
+      [
+        { "id": "e3", "title": "Croissant lamination", "channel": "Kitchen Corner" },
+        { "id": "e4", "title": "Zorblax Quest 9 bread easter egg", "channel": "Game Gossip" }
+      ]
+    </script>
+    <script type="application/json" data-mock-comment-items>
+      [
+        { "id": "c1", "handle": "breadfan", "text": "Tried this today, the ear came out perfect.",
+          "replies": [ { "id": "c1r1", "handle": "kitchencorner", "text": "Glad it worked for you!" } ] },
+        { "id": "c2", "handle": "gamegossip", "text": "Anyone else here waiting for Zorblax Quest 9 instead of baking?" },
+        { "id": "c3", "handle": "ovenlover", "text": "What temperature did you use?",
+          "replies": [ { "id": "c3r1", "handle": "pizzapete", "text": "Same as my pizza stone, 250." } ] },
+        { "id": "c4", "handle": "quietbaker", "text": "Lovely video." }
+      ]
+    </script>
+  </body>
+</html>

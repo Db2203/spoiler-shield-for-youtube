@@ -64,6 +64,30 @@ test('a recycled lockup tile is re-checked', async () => {
   await waitFor(driver, async () => (await visibilityMap(driver, LOCKUP)).l1.hidden, 'lockup hidden after recycle');
 });
 
+test('search suggestions mentioning blocked keywords are hidden as they appear', async () => {
+  await loadSearch();
+  // Rows are inserted and inspected in the same script: they must already be
+  // invisible before the scanner has had a chance to run.
+  const immediate = await driver.executeScript(function () {
+    window.YTMock.showSuggestions([
+      { id: 'g1', text: 'cooking for beginners' },
+      { id: 'g2', text: 'cooking pizza at home' },
+      { id: 'g3', text: 'zorblax quest 9 cooking minigame' },
+    ]);
+    const out = {};
+    for (const el of document.querySelectorAll('[data-mock-suggestions] [role="option"]')) {
+      out[el.getAttribute('data-mock-id')] = getComputedStyle(el).visibility;
+    }
+    return out;
+  });
+  assert.deepEqual(immediate, { g1: 'hidden', g2: 'hidden', g3: 'hidden' });
+  await waitUntilSettled(driver, '[data-mock-suggestions] [role="option"]');
+  const map = await visibilityMap(driver, '[data-mock-suggestions] [role="option"]');
+  assert.equal(map.g1.hidden, false);
+  assert.equal(map.g2.hidden, true);
+  assert.equal(map.g3.hidden, true);
+});
+
 test('hidden counter covers both tile kinds', async () => {
   await loadSearch();
   const state = await hook(driver, 'getState');

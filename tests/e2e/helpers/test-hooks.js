@@ -17,6 +17,8 @@
         return SB.settings.load();
       case 'getState':
         return SB.scanner.getState();
+      case 'getPageState':
+        return SB.watchGuard.getState();
       case 'getStats':
         return SB.settings.loadStats();
       case 'injectFailure':

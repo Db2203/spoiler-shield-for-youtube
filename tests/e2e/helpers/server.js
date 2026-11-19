@@ -3,6 +3,15 @@
 /*
  * Tiny static file server for the fixture pages. Binds to 127.0.0.1 on a
  * random free port so tests never touch the network.
+ *
+ * YouTube-shaped paths are routed to fixture files so the extension's
+ * page-type detection (which looks at location.pathname) works unchanged:
+ *   /              /feed/*        -> home.html
+ *   /results                      -> search.html
+ *   /watch                        -> watch.html
+ *   /shorts/<id>                  -> shorts.html
+ *   /@handle/community, /posts    -> community.html
+ *   /@handle, /channel/<id>       -> channel.html
  */
 
 const fs = require('node:fs');
@@ -22,11 +31,27 @@ const MIME = {
   '.mp4': 'video/mp4',
 };
 
+const ROUTES = [
+  [/^\/$/, 'home.html'],
+  [/^\/feed\//, 'home.html'],
+  [/^\/results$/, 'search.html'],
+  [/^\/watch$/, 'watch.html'],
+  [/^\/shorts\//, 'shorts.html'],
+  [/^\/@[^/]+\/(community|posts)$/, 'community.html'],
+  [/^\/@[^/]+/, 'channel.html'],
+  [/^\/channel\//, 'channel.html'],
+];
+
+function resolveFile(urlPath) {
+  if (path.extname(urlPath)) return urlPath.replace(/^\/+/, '');
+  for (const [pattern, file] of ROUTES) if (pattern.test(urlPath)) return file;
+  return urlPath.replace(/^\/+/, '');
+}
+
 function startServer(rootDir = FIXTURES_DIR) {
   const server = http.createServer((req, res) => {
     const urlPath = decodeURIComponent(new URL(req.url, 'http://127.0.0.1').pathname);
-    const relative = urlPath === '/' ? 'index.html' : urlPath.replace(/^\/+/, '');
-    const filePath = path.join(rootDir, relative);
+    const filePath = path.join(rootDir, resolveFile(urlPath));
     if (!filePath.startsWith(rootDir) || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
       res.writeHead(404, { 'Content-Type': 'text/plain' });
       res.end('not found');
@@ -45,7 +70,8 @@ function startServer(rootDir = FIXTURES_DIR) {
       const { port } = server.address();
       resolve({
         port,
-        url: (file) => `http://127.0.0.1:${port}/${file}`,
+        // url('home.html') serves a file directly; url('/watch?v=x') uses the routes.
+        url: (target) => `http://127.0.0.1:${port}${target.startsWith('/') ? target : '/' + target}`,
         close: () => new Promise((done) => server.close(done)),
       });
     });
