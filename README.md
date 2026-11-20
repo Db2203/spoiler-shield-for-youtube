@@ -35,7 +35,8 @@ GTA 6 preset, loaded on install. Strong: `GTA`, `GTA 6`, `GTA6`, `GTA VI`, `GTAV
 
 ### From addons.mozilla.org
 
-Listing in progress. Once published, the store link goes here and installs are one click.
+The add-on is submitted to the Firefox store and awaiting review. Once approved it installs with one click from
+https://addons.mozilla.org/firefox/addon/spoiler-shield-youtube/
 
 ### Signed build from this repository
 
