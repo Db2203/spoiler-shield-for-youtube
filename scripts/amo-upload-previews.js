@@ -26,10 +26,10 @@ const ADDON_ID = MANIFEST.browser_specific_settings.gecko.id;
 
 // Order on the store page and the caption shown under each image.
 const PREVIEWS = [
-  { file: 'docs/screenshots/real/1-search-before.png', caption: 'Same search with the shield off...' },
-  { file: 'docs/screenshots/real/2-search-after.png', caption: '...and with the shield on. Matching videos and Shorts are gone and the layout closes up.' },
-  { file: 'docs/screenshots/real/4-video-blocked.png', caption: 'Open a matching video by accident and it is stopped and covered before anything plays.' },
-  { file: 'docs/screenshots/real/3-search-blurred.png', caption: 'Optional: blur every thumbnail. One click reveals a tile, a second opens it.' },
+  { file: 'docs/screenshots/search-before.png', caption: 'Same search with the shield off...' },
+  { file: 'docs/screenshots/search-after.png', caption: '...and with the shield on. Matching videos and Shorts are gone and the layout closes up.' },
+  { file: 'docs/screenshots/video-blocked.png', caption: 'Open a matching video by accident and it is stopped and covered before anything plays.' },
+  { file: 'docs/screenshots/search-blurred.png', caption: 'Optional: blur every thumbnail. One click reveals a tile, a second opens it.' },
   { file: 'docs/screenshots/options.png', caption: 'Keyword lists, the GTA 6 preset, blocked channels and behaviour on the options page.' },
 ];
 

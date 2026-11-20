@@ -42,12 +42,13 @@ youtube, spoilers, spoiler blocker, filter, keywords, gta 6, hide videos
 
 ## Screenshots
 
-Use the four files in `docs/screenshots/`. Captions:
+Five files in `docs/screenshots/`, in this order with these captions (also set by `npm run upload:previews`, though the web form is faster because the API is heavily rate-limited):
 
-1. home-filtered.png: "Matching videos are removed; the grid closes up."
-2. home-blurred.png: "Optional thumbnail blur with click to reveal."
-3. watch-blocked.png: "A matching video page is blocked before it can play."
-4. options.png: "Keyword lists, presets, blocklist and behaviour on the options page."
+1. search-before.png: "Same search with the shield off..."
+2. search-after.png: "...and with the shield on. Matching videos and Shorts are gone and the layout closes up."
+3. video-blocked.png: "Open a matching video by accident and it is stopped and covered before anything plays."
+4. search-blurred.png: "Optional: blur every thumbnail. One click reveals a tile, a second opens it."
+5. options.png: "Keyword lists, the GTA 6 preset, blocked channels and behaviour on the options page."
 
 ## Review notes (for the "Notes to reviewer" field)
 

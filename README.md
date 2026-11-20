@@ -7,15 +7,18 @@
 A Firefox extension that keeps spoilers off your YouTube feed. It hides videos, Shorts, comments, community posts and search suggestions that match your keywords, blocks matching video pages outright, and can blur every thumbnail until you choose to look. It ships with a GTA 6 preset, because that is what it was built for, and works for anything else you type in. Everything runs locally in your browser: no network requests, no accounts, no data collection.
 
 <p align="center">
-  <img src="docs/screenshots/home-filtered.png" alt="Home page with matching tiles removed" width="49%">
-  <img src="docs/screenshots/home-blurred.png" alt="Home page with thumbnails blurred and one revealed" width="49%">
+  <img src="docs/screenshots/search-before.png" alt="A YouTube search with the shield off" width="49%">
+  <img src="docs/screenshots/search-after.png" alt="The same search with the shield on: matching videos and Shorts are gone" width="49%">
 </p>
 <p align="center">
-  <img src="docs/screenshots/watch-blocked.png" alt="Blocked video page with Go back button" width="49%">
-  <img src="docs/screenshots/options.png" alt="Options page" width="49%">
+  <img src="docs/screenshots/video-blocked.png" alt="A matching video page stopped and covered by the Go back screen" width="49%">
+  <img src="docs/screenshots/search-blurred.png" alt="Thumbnail blur on, with one tile revealed" width="49%">
+</p>
+<p align="center">
+  <img src="docs/screenshots/options.png" alt="Options page" width="60%">
 </p>
 
-*Screenshots are taken from the project's own mock pages. The titles are invented.*
+*Taken on YouTube with "pizza" as a stand-in keyword: the same search with the shield off and on, a blocked video page, thumbnail blur, and the options page.*
 
 ## How it works
 
@@ -80,8 +83,9 @@ npm run lint          # web-ext lint
 npm run build         # packages extension/ into web-ext-artifacts/*.zip
 npm run sign          # gets the package signed by Mozilla, unlisted (needs WEB_EXT_API_KEY / WEB_EXT_API_SECRET)
 npm run sign:listed   # submits the package for the public listing
-npm run screenshots   # regenerates docs/screenshots from the mock pages
+npm run screenshots   # options page screenshot plus mock-page renders (docs/screenshots/mock, not committed)
 npm run check:real    # structural check against the real site (see below)
+node scripts/real-youtube-screenshots.js   # the README/store screenshots, taken on YouTube with the keyword "pizza"
 ```
 
 The end-to-end tests never touch youtube.com. They serve mock pages from `tests/fixtures/` that copy YouTube's DOM structure with invented content, install a test build of the extension as a temporary add-on, and assert on computed styles. Selenium Manager downloads a matching geckodriver on first run; set `FIREFOX_BIN` if Firefox is installed somewhere unusual, or `SB_HEADED=1` to watch the tests run.
