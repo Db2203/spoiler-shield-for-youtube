@@ -10,7 +10,9 @@ const path = require('node:path');
 const { startServer } = require('./server');
 const { launchBrowser, openPopup, openOptions, closeTab, hook, openFixture, waitUntilSettled, waitFor, By } = require('./browser');
 
-const OUT_DIR = path.join(__dirname, '..', '..', '..', 'docs', 'screenshots');
+// Mock-page renders are not committed; only the options page shot is used by the README.
+const DOCS_DIR = path.join(__dirname, '..', '..', '..', 'docs', 'screenshots');
+const OUT_DIR = path.join(DOCS_DIR, 'mock');
 const SETTINGS = {
   enabled: true,
   strongKeywords: ['Zorblax Quest 9', 'pizza'],
@@ -20,10 +22,10 @@ const SETTINGS = {
   strictMode: false,
 };
 
-async function shot(driver, name) {
+async function shot(driver, name, dir = OUT_DIR) {
   const png = await driver.takeScreenshot();
-  fs.writeFileSync(path.join(OUT_DIR, name), Buffer.from(png, 'base64'));
-  console.log('wrote', name);
+  fs.writeFileSync(path.join(dir, name), Buffer.from(png, 'base64'));
+  console.log('wrote', path.relative(DOCS_DIR, path.join(dir, name)));
 }
 
 async function main() {
@@ -61,7 +63,7 @@ async function main() {
     // Options page with the welcome section.
     await driver.manage().window().setRect({ width: 1000, height: 1100 });
     await openOptions(driver, '#welcome');
-    await shot(driver, 'options.png');
+    await shot(driver, 'options.png', DOCS_DIR);
     await closeTab(driver);
 
     // Popup.

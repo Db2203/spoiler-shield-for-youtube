@@ -2,8 +2,8 @@
 
 /*
  * Store screenshots taken on the real YouTube site with the extension active,
- * using the harmless keyword "pizza". Output goes to docs/screenshots/real/,
- * which is git-ignored because the images show third-party content.
+ * using the harmless keyword "pizza". Output goes to docs/screenshots/ and is
+ * used by the README and the store listing.
  *
  * The script never prints page text; it only reports what it captured and
  * the extension state it verified before each shot.
@@ -16,7 +16,7 @@ const path = require('node:path');
 const { launchBrowser, hook, By, until } = require(path.join(__dirname, '..', 'tests', 'e2e', 'helpers', 'browser'));
 
 const YT = 'https://www.youtube.com';
-const OUT_DIR = path.join(__dirname, '..', 'docs', 'screenshots', 'real');
+const OUT_DIR = path.join(__dirname, '..', 'docs', 'screenshots');
 const QUERY = 'pasta pizza';
 const SETTINGS = {
   enabled: true,
@@ -76,13 +76,13 @@ async function main() {
     await driver.sleep(3000);
     await driver.executeScript('window.scrollTo(0, 0)');
     const before = await counts(driver, RESULTS);
-    await shot(driver, '1-search-before.png', `shield off, ${before.visible} results visible`);
+    await shot(driver, 'search-before.png', `shield off, ${before.visible} results visible`);
 
     await hook(driver, 'setSettings', { enabled: true });
     await settled(driver, RESULTS);
     await driver.sleep(1000);
     const after = await counts(driver, RESULTS);
-    await shot(driver, '2-search-after.png', `shield on, ${after.hidden} hidden, ${after.visible} visible`);
+    await shot(driver, 'search-after.png', `shield on, ${after.hidden} hidden, ${after.visible} visible`);
 
     // 3. Blur with one tile revealed.
     await hook(driver, 'setSettings', { blurThumbnails: true });
@@ -92,7 +92,7 @@ async function main() {
     if (first.length) await driver.executeScript('arguments[0].click()', first[0]);
     await driver.sleep(800);
     const revealed = await driver.executeScript('return document.querySelectorAll("[data-sb-reveal]").length');
-    await shot(driver, '3-search-blurred.png', `blur on, ${revealed} tile revealed`);
+    await shot(driver, 'search-blurred.png', `blur on, ${revealed} tile revealed`);
     await hook(driver, 'setSettings', { blurThumbnails: false });
 
     // 4. Blocked video page. Pick a hidden result's plain video link.
@@ -109,7 +109,7 @@ async function main() {
       await open(driver, YT + href);
       await driver.wait(async () => (await driver.executeScript('return document.documentElement.getAttribute("data-sb-watch")')) === 'blocked', 20000, 'blocked');
       await driver.sleep(1500);
-      await shot(driver, '4-video-blocked.png', 'blocked page with Go back overlay');
+      await shot(driver, 'video-blocked.png', 'blocked page with Go back overlay');
     } else {
       console.log('skipped 4-video-blocked.png: no hidden video link in results');
     }

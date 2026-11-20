@@ -24,7 +24,8 @@ Firefox extension (Manifest V3, plain JavaScript, no build step) that hides keyw
 - `npm run test:e2e` — Firefox tests against `tests/fixtures/`
 - `npm run lint` — `web-ext lint` on `extension/`
 - `npm run build` — zip in `web-ext-artifacts/`
-- `npm run screenshots` — regenerates `docs/screenshots/` from the mock pages (never from YouTube)
+- `npm run screenshots` — options page shot plus mock-page renders into `docs/screenshots/mock/` (not committed)
+- `node scripts/real-youtube-screenshots.js` — README/store screenshots taken on YouTube with the keyword "pizza", written to `docs/screenshots/`. The assistant must never open these images (rule 1); the user reviews them.
 
 ## Testing notes
 
