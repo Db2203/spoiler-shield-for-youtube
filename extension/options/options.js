@@ -24,6 +24,7 @@
     resetStats: $('reset-stats'),
     status: $('status'),
     version: $('version'),
+    homepage: $('homepage'),
   };
 
   let saveTimer = null;
@@ -85,6 +86,8 @@
   async function init() {
     const manifest = browser.runtime.getManifest();
     ui.version.textContent = manifest.version;
+    if (manifest.homepage_url) ui.homepage.href = manifest.homepage_url;
+    else ui.homepage.hidden = true;
     ui.welcome.hidden = location.hash !== '#welcome';
 
     render(await SB.settings.load());

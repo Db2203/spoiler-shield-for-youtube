@@ -7,12 +7,18 @@
     "en-US": "Hides YouTube videos, Shorts, comments and search suggestions that match your keywords, and blocks matching video pages with a \"Go back\" screen. Ships with a GTA 6 preset. Fails closed, runs offline, collects nothing."
   },
   "description": {
-    "en-US": "Waiting for a game, a show or a match result and want YouTube to stay quiet about it? Spoiler Shield removes anything that mentions your keywords, everywhere on YouTube:\n\n• Video tiles on the home feed, subscriptions, search results, channel pages and the watch-page sidebar\n• Shorts, in shelves and in the Shorts player\n• Comments and replies, community posts and notifications\n• Search suggestions as you type\n• End screen cards and the end video wall\n\nOpen a matching video, Short or channel by accident and playback stops immediately: the page is covered by a \"Go back\" screen before anything can be seen or heard.\n\nTwo kinds of keywords keep false alarms down. Strong keywords hide on their own. Weak keywords only count when two different ones appear together, so a common first name never hides anything by itself. Matching is whole-word and case-insensitive. A channel blocklist hides everything from channels you never want to see.\n\nThumbnails can spoil without a single word, so every thumbnail can be blurred until you click it. Strict mode removes the reveal entirely.\n\nBuilt to fail closed: every item is invisible from the moment it enters the page until it has been checked, so if YouTube changes its layout, content stays hidden rather than leaking through. Infinite scroll, recycled tiles and in-page navigation are handled before the browser paints.\n\nThe GTA 6 preset is loaded on install. Edit the lists or start from scratch on the options page.\n\nPrivacy: no network requests, no accounts, no analytics. Your keyword lists and counters are stored in Firefox only."
+    "en-US": "Waiting for a game, a show or a match result and want YouTube to stay quiet about it? Spoiler Shield removes anything that mentions your keywords, everywhere on YouTube:\n\n• Video tiles on the home feed, subscriptions, search results, channel pages and the watch-page sidebar\n• Shorts, in shelves and in the Shorts player\n• Comments and replies, community posts and notifications\n• Search suggestions as you type\n• End screen cards and the end video wall\n\nOpen a matching video, Short or channel by accident and playback stops immediately: the page is covered by a \"Go back\" screen before anything can be seen or heard.\n\nTwo kinds of keywords keep false alarms down. Strong keywords hide on their own. Weak keywords only count when two different ones appear together, so a common first name never hides anything by itself. Matching is whole-word and case-insensitive. A channel blocklist hides everything from channels you never want to see.\n\nThumbnails can spoil without a single word, so every thumbnail can be blurred until you click it. Strict mode removes the reveal entirely.\n\nBuilt to fail closed: every item is invisible from the moment it enters the page until it has been checked, so if YouTube changes its layout, content stays hidden rather than leaking through. Infinite scroll, recycled tiles and in-page navigation are handled before the browser paints.\n\nThe GTA 6 preset is loaded on install. Edit the lists or start from scratch on the options page.\n\nPrivacy: no network requests, no accounts, no analytics. Your keyword lists and counters are stored in Firefox only. Source code: https://github.com/Db2203/spoiler-shield-for-youtube"
   },
   "version": {
     "license": "MIT",
     "release_notes": {
-      "en-US": "New shield icon. No external links in the extension."
+      "en-US": "Adds a link to the source code on the options page and the add-on page."
     }
+  },
+  "homepage": {
+    "en-US": "https://github.com/Db2203/spoiler-shield-for-youtube"
+  },
+  "support_url": {
+    "en-US": "https://github.com/Db2203/spoiler-shield-for-youtube/issues"
   }
 }
