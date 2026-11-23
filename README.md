@@ -3,6 +3,7 @@
 [![CI](https://github.com/Db2203/spoiler-shield-for-youtube/actions/workflows/ci.yml/badge.svg)](https://github.com/Db2203/spoiler-shield-for-youtube/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Firefox](https://img.shields.io/badge/Firefox-140%2B-orange)
+[![Firefox Add-on](https://img.shields.io/amo/v/spoiler-shield-youtube?label=addons.mozilla.org)](https://addons.mozilla.org/firefox/addon/spoiler-shield-youtube/)
 
 A Firefox extension that keeps spoilers off your YouTube feed. It hides videos, Shorts, comments, community posts and search suggestions that match your keywords, blocks matching video pages outright, and can blur every thumbnail until you choose to look. It ships with a GTA 6 preset, because that is what it was built for, and works for anything else you type in. Everything runs locally in your browser: no network requests, no accounts, no data collection.
 
@@ -36,10 +37,11 @@ GTA 6 preset, loaded on install. Strong: `GTA`, `GTA 6`, `GTA6`, `GTA VI`, `GTAV
 
 ## Install
 
-### From addons.mozilla.org
+### From addons.mozilla.org (recommended)
 
-The add-on is submitted to the Firefox store and awaiting review. Once approved it installs with one click from
-https://addons.mozilla.org/firefox/addon/spoiler-shield-youtube/
+One click, with automatic updates:
+
+**https://addons.mozilla.org/firefox/addon/spoiler-shield-youtube/**
 
 ### Signed build from this repository
 
