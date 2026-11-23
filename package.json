@@ -16,7 +16,8 @@
     "check:real": "node scripts/real-youtube-check.js",
     "sign": "web-ext sign --source-dir extension --artifacts-dir web-ext-artifacts --channel unlisted",
     "sign:listed": "web-ext sign --source-dir extension --artifacts-dir web-ext-artifacts --channel listed --amo-metadata amo-metadata.json",
-    "upload:previews": "node scripts/amo-upload-previews.js"
+    "upload:previews": "node scripts/amo-upload-previews.js",
+    "icons": "node scripts/render-icons.js"
   },
   "devDependencies": {
     "selenium-webdriver": "^4.35.0",
