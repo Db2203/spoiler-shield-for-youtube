@@ -12,7 +12,7 @@
   "version": {
     "license": "MIT",
     "release_notes": {
-      "en-US": "Renamed to Spoiler Shield for YouTube. Adds an options page with a GTA 6 preset, a toolbar badge with the hidden count, a first-run welcome page and a choice of matching video pages on title and channel only or also on the description."
+      "en-US": "New shield icon. No external links in the extension."
     }
   }
 }

@@ -1,9 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Spoiler Shield for YouTube",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Hides videos, Shorts, comments and search suggestions that match your keywords, and blocks matching video pages. Ships with a GTA 6 preset. Runs entirely offline.",
-  "homepage_url": "https://github.com/Db2203/spoiler-shield-for-youtube",
   "browser_specific_settings": {
     "gecko": {
       "id": "gta6-spoiler-blocker@db2203.github.io",

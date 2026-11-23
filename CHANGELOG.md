@@ -6,6 +6,13 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-11-23
+
+### Changed
+
+- New icon: a shield with the crossed-out eye, shipped as PNGs at all sizes.
+- No links to the source repository in the extension or on the store page: homepage_url removed from the manifest and the "Source and issues" link removed from the options page.
+
 ## [1.1.1] - 2026-11-20
 
 Version bump only, for the first listed submission to addons.mozilla.org (1.1.0 had already been signed for self-distribution and a version number can be uploaded once). No functional changes.
@@ -82,7 +89,8 @@ Version bump only, for the first listed submission to addons.mozilla.org (1.1.0 
 - Settings popup with on/off switch, editable keyword lists and hidden counters.
 - Unit tests for the matcher and end-to-end tests that drive headless Firefox against local mock pages.
 
-[Unreleased]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/Db2203/spoiler-shield-for-youtube/compare/v1.0.0...v1.0.1
