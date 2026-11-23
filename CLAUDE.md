@@ -38,4 +38,4 @@ Firefox extension (Manifest V3, plain JavaScript, no build step) that hides keyw
 
 - Conventional Commits: `feat:`, `fix:`, `test:`, `docs:`, `chore:`, `refactor:`. Imperative subject under 72 chars, body says why.
 - Commit straight to `main`, linear history, tag each phase (`v0.1.0`, `v0.2.0`, ...), update `CHANGELOG.md` per tag.
-- Commit author: Db2203.
+- Commit author: Db2203. No `Co-Authored-By` or other attribution trailers in commit messages or PR descriptions (user decision, 2026-11-23; history was rewritten to remove them).
