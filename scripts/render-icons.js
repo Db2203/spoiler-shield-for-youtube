@@ -9,7 +9,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { Builder, By } = require('selenium-webdriver');
+const { Builder } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 
 const ICON_DIR = path.join(__dirname, '..', 'extension', 'icons');
@@ -23,17 +23,30 @@ async function main() {
   else if (process.platform === 'win32' && fs.existsSync(WINDOWS_FIREFOX)) options.setBinary(WINDOWS_FIREFOX);
   const driver = await new Builder().forBrowser('firefox').setFirefoxOptions(options).build();
   try {
+    await driver.get('data:text/html;charset=utf-8,<!doctype html><html><body></body></html>');
     for (const size of SIZES) {
-      const html =
-        '<!doctype html><html><body style="margin:0;background:transparent">' +
-        `<div id="icon" style="width:${size}px;height:${size}px;display:inline-block">` +
-        svg.replace(/width="\d+" height="\d+"/, `width="${size}" height="${size}"`) +
-        '</div></body></html>';
-      await driver.get('data:text/html;charset=utf-8,' + encodeURIComponent(html));
-      const el = await driver.findElement(By.id('icon'));
-      const png = await el.takeScreenshot();
+      // Draw the SVG on a canvas so the corners stay transparent.
+      const dataUrl = await driver.executeAsyncScript(
+        function (svg, size, done) {
+          const img = new Image();
+          img.onload = function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            canvas.getContext('2d').drawImage(img, 0, 0, size, size);
+            done(canvas.toDataURL('image/png'));
+          };
+          img.onerror = function () {
+            done(null);
+          };
+          img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+        },
+        svg,
+        size
+      );
+      if (!dataUrl) throw new Error('could not render the SVG');
       const file = path.join(ICON_DIR, `icon-${size}.png`);
-      fs.writeFileSync(file, Buffer.from(png, 'base64'));
+      fs.writeFileSync(file, Buffer.from(dataUrl.split(',')[1], 'base64'));
       console.log('wrote', path.relative(process.cwd(), file));
     }
   } finally {
