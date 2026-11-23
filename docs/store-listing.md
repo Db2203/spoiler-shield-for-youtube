@@ -30,7 +30,7 @@ Built to fail closed: every item is invisible from the moment it enters the page
 
 The GTA 6 preset is loaded on install. Edit the lists or start from scratch on the options page.
 
-Privacy: no network requests, no accounts, no analytics. Your keyword lists and counters are stored in Firefox only. Source code: https://github.com/Db2203/spoiler-shield-for-youtube
+Privacy: no network requests, no accounts, no analytics. Your keyword lists and counters are stored in Firefox only.
 
 ## Categories
 
@@ -56,4 +56,4 @@ No build step: the uploaded package is the source. All logic is in extension/con
 
 ## Support
 
-Issues: https://github.com/Db2203/spoiler-shield-for-youtube/issues
+No links on the store page by choice. Issues are accepted on GitHub, but the listing does not advertise it.
